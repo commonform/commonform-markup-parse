@@ -1,0 +1,1 @@
+This package adds a context-tracking parser atop [commonform-markup-content-parse](https://npmjs.com/packages/commonform-markup-content-parse) for parsing multiline markup files representing multiple complex common forms. It passes [commonform-markup-tests](https://npmjs.com/packages/commonform-markup-tests)' suite.
