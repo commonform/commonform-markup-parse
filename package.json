@@ -1,7 +1,7 @@
 {
   "name": "commonform-markup-parse",
   "description": "parse common form markup",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "dependencies": {
     "commonform-markup-content-parse": "~0.1.0",
