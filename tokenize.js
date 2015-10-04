@@ -4,7 +4,6 @@ var repeat = require('string-repeat')
 
 var INITIAL_SPACE = /^( *)/
 var INDENT_WIDTH = 4
-var INDENT_SPACES = repeat(' ', INDENT_WIDTH)
 
 function indentationOf(line, lineNumber) {
   var initialSpace = INITIAL_SPACE.exec(line)[1].length
@@ -65,38 +64,29 @@ function tokenize(text) {
     .map(function(line, index) {
       var lineNumber = ( index + 1 )
       var indentation = indentationOf(line, lineNumber)
-      var indentationSpaces = repeat(INDENT_SPACES, indentation)
+      var indentationLength = ( indentation * INDENT_WIDTH )
+      var indentationSpaces = repeat(' ', indentationLength)
+      var content = line.substring(indentationSpaces.length)
+      var contentColumn = ( indentationLength + 1 )
+      var newlineToken = {
+        token: TOKEN_NEWLINE,
+        line: lineNumber,
+        column: ( line.length + 1 ),
+        string: '\n' }
+      var contentTokens = stringTokens(content, lineNumber, contentColumn)
       var returned
       if (indentation === lastIndentation) {
-        returned = (
-          stringTokens(
-            line.substring(indentationSpaces.length),
-            lineNumber,
-            ( ( indentation * INDENT_WIDTH ) + 1 )))
-          .concat({
-            token: TOKEN_NEWLINE,
-            line: lineNumber,
-            column: ( line.length + 1 ),
-            string: '\n' }) }
+        returned = contentTokens.concat(newlineToken) }
       else if (indentation > lastIndentation) {
         if (indentation - lastIndentation > 1) {
           throw new Error('Line ' + lineNumber + ' is indented too far.') }
         else {
-          returned = [
-            { token: TOKEN_INDENT,
-              line: lineNumber,
-              column: 1,
-              string: indentationSpaces } ]
-            .concat(
-              stringTokens(
-                line.substring(indentationSpaces.length),
-                lineNumber,
-                ( ( indentation * INDENT_WIDTH ) + 1 )))
-            .concat({
-              token: TOKEN_NEWLINE,
-              line: lineNumber,
-              column: ( line.length + 1 ),
-              string: '\n' }) } }
+          var indentToken = {
+            token: TOKEN_INDENT,
+            line: lineNumber,
+            column: 1,
+            string: indentationSpaces }
+          returned = [ indentToken ].concat(contentTokens, newlineToken) } }
       else if (indentation < lastIndentation) {
         var dedentCount = ( lastIndentation - indentation )
         var dedents = [ ]
@@ -106,17 +96,7 @@ function tokenize(text) {
             line: lineNumber,
             column: 1,
             string: indentationSpaces }) }
-        returned = dedents
-          .concat(
-            stringTokens(
-              line.substring(indentationSpaces.length),
-              lineNumber,
-              ( ( indentation * INDENT_WIDTH ) + 1 )))
-          .concat(
-            { token: TOKEN_NEWLINE,
-              line: lineNumber,
-              column: ( line.length + 1 ),
-              string: '\n' }) }
+        returned = dedents.concat(contentTokens, newlineToken) }
       lastIndentation = indentation
       return returned })
     .reduce(
