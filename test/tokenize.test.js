@@ -34,4 +34,12 @@ tape('tokenizer', function(test) {
       { token: 'char',    line: 3, column: 5, string: 'C' },
       { token: 'newline', line: 3, column: 6, string: '\n' } ])
 
+  test.throws(
+    function() { tokenize('\ttest') },
+    /invalid character/i)
+
+  test.throws(
+    function() { tokenize('§ test') },
+    /invalid character/i)
+
   test.end() })

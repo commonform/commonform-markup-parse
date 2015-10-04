@@ -39,11 +39,17 @@ var CHAR_TOKENS = {
   '>': TOKEN_CLOSE_ANGLE,
   '"': TOKEN_QUOTE }
 
+var ILLEGAL = /[^\x20-\x7E]|\t/
+
 function stringTokens(string, line, offset) {
   var returned = [ ]
   for (var index = 0; index < string.length; index++) {
     var character = string.charAt(index)
-    if (CHAR_TOKENS.hasOwnProperty(character)) {
+    if (ILLEGAL.test(character)) {
+      throw new Error(
+        'Invalid character "' + character + '"' +
+        ' at line ' + line + ' column ' + ( offset + index )) }
+    else if (CHAR_TOKENS.hasOwnProperty(character)) {
       returned.push({
         token: CHAR_TOKENS[character],
         line: line,
