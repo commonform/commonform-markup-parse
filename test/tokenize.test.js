@@ -1,5 +1,5 @@
 var tape = require('tape')
-var tokenize = require('../tokenize')
+var tokenize = require('../tokenize-lines')
 
 tape('tokenizer', function(test) {
 
