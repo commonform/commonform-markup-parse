@@ -30,7 +30,7 @@ function tokenizeLines(text) {
       var contentTokens = tokenizeContent(content, lineNumber, contentColumn)
       // Newline
       var newlineToken = {
-        token: TOKEN_NEWLINE,
+        type: TOKEN_NEWLINE,
         line: lineNumber,
         column: ( line.length + 1 ),
         string: '\n' }
@@ -55,7 +55,7 @@ function tokenizeLines(text) {
           throw new Error('Line ' + lineNumber + ' is indented too far.') }
         else {
           var indentToken = {
-            token: TOKEN_INDENT,
+            type: TOKEN_INDENT,
             line: lineNumber,
             column: 1,
             string: indentationSpaces }
@@ -84,7 +84,7 @@ function tokenizeLines(text) {
         var dedents = [ ]
         for (var i = 1; i <= dedentCount; i++) {
           dedents.push({
-            token: TOKEN_DEDENT,
+            type: TOKEN_DEDENT,
             line: lineNumber,
             column: 1,
             string: indentationSpaces }) }
