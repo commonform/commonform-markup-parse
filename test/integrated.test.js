@@ -1,11 +1,10 @@
 var tape = require('tape')
-var parse = require('../parse')
-var tokenize = require('../tokenize-lines')
+var parse = require('..')
 
 tape('parser', function(test) {
 
   test.deepEqual(
-    parse(tokenize('a test')),
+    parse('a test'),
     { content: [ 'a test' ] })
 
   test.end() })
