@@ -9,6 +9,7 @@ var TOKEN_CLOSE_BRACE = '}'
 var TOKEN_OPEN_ANGLE = '<'
 var TOKEN_CLOSE_ANGLE = '>'
 var TOKEN_QUOTE = '"'
+var TOKEN_TEXT = 'text'
 
 var CHAR_TOKENS = {
   '\\': TOKEN_BACKSLASH,
@@ -36,16 +37,36 @@ function tokenizeContent(string, line, offset) {
     // If it's potentially a special character, emit the corresponding token.
     else if (CHAR_TOKENS.hasOwnProperty(character)) {
       arrayOfTokens.push({
-        token: CHAR_TOKENS[character],
+        type: CHAR_TOKENS[character],
         line: line,
         column: ( offset + index ),
         string: character }) }
     // Otherwise, emit a character token.
     else {
       arrayOfTokens.push({
-        token: TOKEN_CHARACTER,
+        type: TOKEN_CHARACTER,
         line: line,
         column: ( offset + index ),
         string: character }) } }
-  return arrayOfTokens }
+  // Combine consecutive character tokens into text tokens.
+  return arrayOfTokens
+    .reduce(
+      function(returned, token, index, tokens) {
+        var precedingToken = ( ( index > 0 ) ? tokens[index - 1] : false )
+        var consecutiveText = (
+          precedingToken &&
+          ( precedingToken.type === TOKEN_CHARACTER ) &&
+          ( token.type === TOKEN_CHARACTER) )
+        if (consecutiveText) {
+          returned[( returned.length - 1 )].string += token.string
+          precedingToken = token
+          return returned }
+        else {
+          precedingToken = token
+          return returned.concat({
+            type: TOKEN_TEXT,
+            column: token.column,
+            line: token.line,
+            string: token.string }) } },
+      [ ]) }
 
