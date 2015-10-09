@@ -3,7 +3,7 @@ module.exports = parse
 var ParserError = require('./parser-error')
 var ParserState = require('./parser-state')
 
-var TOKENS = require('./tokens')
+var TOKENS = require('../tokens')
 
 function parseFormWithoutHeading(state) {
   var nextToken = state.peek()

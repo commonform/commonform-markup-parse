@@ -1,6 +1,6 @@
 module.exports = tokenizeContent
 
-var TOKENS = require('./tokens')
+var TOKENS = require('../tokens')
 
 var CHARACTER = 'char'
 
