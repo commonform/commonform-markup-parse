@@ -6,12 +6,12 @@ var CHARACTER = 'char'
 
 var CHAR_TOKENS = {
   '\\': TOKENS.BACKSLASH,
-  '[': TOKENS.OPEN_BRACKET,
-  ']': TOKENS.CLOSE_BRACKET,
-  '{': TOKENS.OPEN_BRACE,
-  '}': TOKENS.CLOSE_BRACE,
-  '<': TOKENS.OPEN_ANGLE,
-  '>': TOKENS.CLOSE_ANGLE,
+  '[': TOKENS.LEFT_BRACKET,
+  ']': TOKENS.RIGHT_BRACKET,
+  '{': TOKENS.LEFT_BRACE,
+  '}': TOKENS.RIGHT_BRACE,
+  '<': TOKENS.LEFT_ANGLE,
+  '>': TOKENS.RIGHT_ANGLE,
   '"': TOKENS.QUOTE }
 
 // Non-printable-ASCII characters and tabs are not allowed.
