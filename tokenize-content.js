@@ -1,25 +1,18 @@
 module.exports = tokenizeContent
 
-var TOKEN_CHARACTER = 'char'
-var TOKEN_BACKSLASH = 'slash'
-var TOKEN_OPEN_BRACKET = '['
-var TOKEN_CLOSE_BRACKET = ']'
-var TOKEN_OPEN_BRACE = '{'
-var TOKEN_CLOSE_BRACE = '}'
-var TOKEN_OPEN_ANGLE = '<'
-var TOKEN_CLOSE_ANGLE = '>'
-var TOKEN_QUOTE = '"'
-var TOKEN_TEXT = 'text'
+var TOKENS = require('./tokens')
+
+var CHARACTER = 'char'
 
 var CHAR_TOKENS = {
-  '\\': TOKEN_BACKSLASH,
-  '[': TOKEN_OPEN_BRACKET,
-  ']': TOKEN_CLOSE_BRACKET,
-  '{': TOKEN_OPEN_BRACE,
-  '}': TOKEN_CLOSE_BRACE,
-  '<': TOKEN_OPEN_ANGLE,
-  '>': TOKEN_CLOSE_ANGLE,
-  '"': TOKEN_QUOTE }
+  '\\': TOKENS.BACKSLASH,
+  '[': TOKENS.OPEN_BRACKET,
+  ']': TOKENS.CLOSE_BRACKET,
+  '{': TOKENS.OPEN_BRACE,
+  '}': TOKENS.CLOSE_BRACE,
+  '<': TOKENS.OPEN_ANGLE,
+  '>': TOKENS.CLOSE_ANGLE,
+  '"': TOKENS.QUOTE }
 
 // Non-printable-ASCII characters and tabs are not allowed.
 var ILLEGAL = /[^\x20-\x7E]|\t/
@@ -44,7 +37,7 @@ function tokenizeContent(string, line, offset) {
     // Otherwise, emit a character token.
     else {
       arrayOfTokens.push({
-        type: TOKEN_CHARACTER,
+        type: CHARACTER,
         line: line,
         column: ( offset + index ),
         string: character }) } }
@@ -55,8 +48,8 @@ function tokenizeContent(string, line, offset) {
         var precedingToken = ( ( index > 0 ) ? tokens[index - 1] : false )
         var consecutiveText = (
           precedingToken &&
-          ( precedingToken.type === TOKEN_CHARACTER ) &&
-          ( token.type === TOKEN_CHARACTER) )
+          ( precedingToken.type === CHARACTER ) &&
+          ( token.type === CHARACTER) )
         if (consecutiveText) {
           returned[( returned.length - 1 )].string += token.string
           precedingToken = token
@@ -64,7 +57,7 @@ function tokenizeContent(string, line, offset) {
         else {
           precedingToken = token
           return returned.concat({
-            type: TOKEN_TEXT,
+            type: TOKENS.TEXT,
             column: token.column,
             line: token.line,
             string: token.string }) } },
