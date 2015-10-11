@@ -6,6 +6,7 @@
     "string-repeat": "^1.1.1"
   },
   "devDependencies": {
+    "tap-difflet": "^0.4.0",
     "tape": "^4.2.1"
   },
   "license": "Apache-2.0",

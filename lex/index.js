@@ -1,6 +1,7 @@
 module.exports = tokenizeLines
 
 var repeat = require('string-repeat')
+var times = require('../times')
 var tokenizeContent = require('./tokenize-content')
 var tokens = require('../tokens')
 
@@ -11,11 +12,14 @@ function tokenizeLines(text) {
   // Track the indentation of the last-seen line. This it the
   // context-dependency that keeps us from parsing with a context-free grammar.
   var lastIndentation = 0
+  var lastLine = 0
+  var lastColumn = 0
   return text
     // Split into lines.
     .split('\n')
     // For each line, create an Array of tokens for indentation and content.
     .map(function(line, index) {
+      lastColumn = 0
       var lineNumber = ( index + 1 )
       // Indentation
       var indentation = indentationOf(line, lineNumber)
@@ -28,13 +32,16 @@ function tokenizeLines(text) {
       // Newline
       var newlineToken = {
         type: tokens.NEWLINE,
-        line: lineNumber,
+        line: ( lineNumber - 1),
         column: ( line.length + 1 ),
         string: '\n' }
       var arrayOfTokens
       // Same indentation as last line
       if (indentation === lastIndentation) {
-        arrayOfTokens = contentTokens.concat(newlineToken) }
+        if (lineNumber === 1) {
+          arrayOfTokens = contentTokens }
+        else {
+          arrayOfTokens = [ newlineToken ].concat(contentTokens) } }
       // Indented further than last line
       else if (indentation > lastIndentation) {
         // Any line may be indented at most 1 level deeper.
@@ -56,7 +63,7 @@ function tokenizeLines(text) {
             line: lineNumber,
             column: 1,
             string: indentationSpaces }
-          arrayOfTokens = [ indentToken ].concat(contentTokens, newlineToken) } }
+          arrayOfTokens = [ indentToken ].concat(contentTokens) } }
       // Indented less than last line
       else if (indentation < lastIndentation) {
         // This line may be indented any number of levels less than the
@@ -73,10 +80,10 @@ function tokenizeLines(text) {
         //
         //  All together, in pseudo-tokens:
         //
-        //      "A" NEWLINE
-        //      INDENT  "B"  NEWLINE
-        //      INDENT  "C"  NEWLINE
-        //      DEDENT  DEDENT  "D"  NEWLINE
+        //      "A"
+        //      INDENT  "B"
+        //      INDENT  "C"
+        //      DEDENT  DEDENT  "D"
         var dedentCount = ( lastIndentation - indentation )
         var dedents = [ ]
         for (var i = 1; i <= dedentCount; i++) {
@@ -85,13 +92,27 @@ function tokenizeLines(text) {
             line: lineNumber,
             column: 1,
             string: indentationSpaces }) }
-        arrayOfTokens = dedents.concat(contentTokens, newlineToken) }
+        arrayOfTokens = dedents.concat(contentTokens) }
       lastIndentation = indentation
+      lastColumn = ( contentColumn + content.length )
+      lastLine = lineNumber
       return arrayOfTokens })
     .reduce(
       function(tokens, array) {
         return tokens.concat(array) },
-      [ ]) }
+      [ ])
+    .concat(
+      times(
+        { type: 'dedent',
+          line: lastLine,
+          column: lastColumn,
+          string: '' },
+        lastIndentation))
+    .concat({
+      type: 'end',
+      line: lastLine,
+      column: lastColumn,
+      string: '' }) }
 
 function indentationOf(line, lineNumber) {
   var initialSpace = INITIAL_SPACE.exec(line)[1].length
