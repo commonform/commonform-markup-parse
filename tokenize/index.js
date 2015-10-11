@@ -1,4 +1,4 @@
-module.exports = tokenizeLines
+module.exports = tokenize
 
 var repeat = require('string-repeat')
 var times = require('../times')
@@ -8,7 +8,7 @@ var tokens = require('../tokens')
 var INITIAL_SPACE = /^( *)/
 var INDENT_WIDTH = 4
 
-function tokenizeLines(text) {
+function tokenize(text) {
   // Track the indentation of the last-seen line. This it the
   // context-dependency that keeps us from parsing with a context-free grammar.
   var lastIndentation = 0

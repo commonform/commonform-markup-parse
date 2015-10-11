@@ -1,5 +1,5 @@
 var tape = require('tape')
-var tokenize = require('../lex')
+var tokenize = require('../tokenize')
 
 tape('tokenizer', function(test) {
 
