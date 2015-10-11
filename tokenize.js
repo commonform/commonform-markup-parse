@@ -1,9 +1,9 @@
 module.exports = tokenize
 
 var repeat = require('string-repeat')
-var times = require('../times')
+var times = require('./times')
 var tokenizeContent = require('./tokenize-content')
-var tokens = require('../tokens')
+var tokens = require('./tokens')
 
 var INITIAL_SPACE = /^( *)/
 var INDENT_WIDTH = 4
