@@ -4,5 +4,5 @@
 
 document
   : TEXT EOF
-    { return $1 }
+    { return { content: [ $1 ] } }
   ;
