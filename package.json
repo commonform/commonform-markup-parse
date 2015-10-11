@@ -6,12 +6,15 @@
     "string-repeat": "^1.1.1"
   },
   "devDependencies": {
+    "jison": "^0.4.15",
     "tap-difflet": "^0.4.0",
     "tape": "^4.2.1"
   },
   "license": "Apache-2.0",
   "repository": "commonform/commonform-new-markup",
   "scripts": {
+    "prepublish": "jison -m commonjs -o parser.js parser.jison",
+    "pretest": "npm run prepublish",
     "test": "tape test/*.test.js"
   }
 }
