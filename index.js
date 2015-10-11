@@ -1,5 +1,5 @@
-var lex = require('./lex/')
-var parse = require('./parse/')
+var parse = require('./parse')
+var tokenize = require('./tokenize')
 
 module.exports = function(string) {
-  return parse(lex(string)) }
+  return parse(tokenize(string)) }
