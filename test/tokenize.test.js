@@ -5,8 +5,8 @@ tape('tokenizer', function(test) {
 
   test.deepEqual(
     tokenize('a test'),
-    [ { type: 'text',    line: 1, column: 1, string: 'a test' },
-      { type: 'end',     line: 1, column: 7, string: '' } ],
+    [ { type: 'TEXT',    line: 1, column: 1, string: 'a test' },
+      { type: 'EOF',     line: 1, column: 7, string: '' } ],
     'just text')
 
   test.deepEqual(
@@ -14,26 +14,26 @@ tape('tokenizer', function(test) {
       [ 'A',
         '    B',
         'C' ].join('\n')),
-    [ { type: 'text',    line: 1, column: 1, string: 'A' },
-      { type: 'indent',  line: 2, column: 1, string: '    ' },
-      { type: 'text',    line: 2, column: 5, string: 'B' },
-      { type: 'outdent',  line: 3, column: 1, string: '' },
-      { type: 'text',    line: 3, column: 1, string: 'C' },
-      { type: 'end',     line: 3, column: 2, string: '' } ],
-    'outdent')
+    [ { type: 'TEXT',    line: 1, column: 1, string: 'A' },
+      { type: 'INDENT',  line: 2, column: 1, string: '    ' },
+      { type: 'TEXT',    line: 2, column: 5, string: 'B' },
+      { type: 'OUTDENT', line: 3, column: 1, string: '' },
+      { type: 'TEXT',    line: 3, column: 1, string: 'C' },
+      { type: 'EOF',     line: 3, column: 2, string: '' } ],
+    'OUTDENT')
 
   test.deepEqual(
     tokenize(
       [ 'A',
         '    B',
         '    C' ].join('\n')),
-    [ { type: 'text',    line: 1, column: 1, string: 'A' },
-      { type: 'indent',  line: 2, column: 1, string: '    ' },
-      { type: 'text',    line: 2, column: 5, string: 'B' },
-      { type: 'newline', line: 2, column: 6, string: '\n' },
-      { type: 'text',    line: 3, column: 5, string: 'C' },
-      { type: 'outdent',  line: 3, column: 6, string: '' },
-      { type: 'end',     line: 3, column: 6, string: '' } ],
+    [ { type: 'TEXT',    line: 1, column: 1, string: 'A' },
+      { type: 'INDENT',  line: 2, column: 1, string: '    ' },
+      { type: 'TEXT',    line: 2, column: 5, string: 'B' },
+      { type: 'NEWLINE', line: 2, column: 6, string: '\n' },
+      { type: 'TEXT',    line: 3, column: 5, string: 'C' },
+      { type: 'OUTDENT', line: 3, column: 6, string: '' },
+      { type: 'EOF',     line: 3, column: 6, string: '' } ],
     'consecutive at same level')
 
   test.deepEqual(
@@ -42,31 +42,31 @@ tape('tokenizer', function(test) {
         '    B',
         '        C',
         'D' ].join('\n')),
-    [ { type: 'text',    line: 1, column: 1, string: 'A' },
-      { type: 'indent',  line: 2, column: 1, string: '    ' },
-      { type: 'text',    line: 2, column: 5, string: 'B' },
-      { type: 'indent',  line: 3, column: 1, string: '        ' },
-      { type: 'text',    line: 3, column: 9, string: 'C' },
-      { type: 'outdent',  line: 4, column: 1, string: '' },
-      { type: 'outdent',  line: 4, column: 1, string: '' },
-      { type: 'text',    line: 4, column: 1, string: 'D' },
-      { type: 'end',     line: 4, column: 2, string: '' } ],
-    'multiple outdent')
+    [ { type: 'TEXT',    line: 1, column: 1, string: 'A' },
+      { type: 'INDENT',  line: 2, column: 1, string: '    ' },
+      { type: 'TEXT',    line: 2, column: 5, string: 'B' },
+      { type: 'INDENT',  line: 3, column: 1, string: '        ' },
+      { type: 'TEXT',    line: 3, column: 9, string: 'C' },
+      { type: 'OUTDENT', line: 4, column: 1, string: '' },
+      { type: 'OUTDENT', line: 4, column: 1, string: '' },
+      { type: 'TEXT',    line: 4, column: 1, string: 'D' },
+      { type: 'EOF',     line: 4, column: 2, string: '' } ],
+    'multiple OUTDENT')
 
   test.deepEqual(
     tokenize(
       [ 'A',
         '    B',
         '        C' ].join('\n')),
-    [ { type: 'text',    line: 1, column: 1, string: 'A' },
-      { type: 'indent',  line: 2, column: 1, string: '    ' },
-      { type: 'text',    line: 2, column: 5, string: 'B' },
-      { type: 'indent',  line: 3, column: 1, string: '        ' },
-      { type: 'text',    line: 3, column: 9, string: 'C' },
-      { type: 'outdent',  line: 3, column: 10, string: '' },
-      { type: 'outdent',  line: 3, column: 10, string: '' },
-      { type: 'end',     line: 3, column: 10, string: '' } ],
-    'emits terminal outdent tokens')
+    [ { type: 'TEXT',    line: 1, column: 1, string: 'A' },
+      { type: 'INDENT',  line: 2, column: 1, string: '    ' },
+      { type: 'TEXT',    line: 2, column: 5, string: 'B' },
+      { type: 'INDENT',  line: 3, column: 1, string: '        ' },
+      { type: 'TEXT',    line: 3, column: 9, string: 'C' },
+      { type: 'OUTDENT', line: 3, column: 10, string: '' },
+      { type: 'OUTDENT', line: 3, column: 10, string: '' },
+      { type: 'EOF',     line: 3, column: 10, string: '' } ],
+    'emits terminal OUTDENT tokens')
 
   test.throws(
     function() { tokenize('\ttest') },

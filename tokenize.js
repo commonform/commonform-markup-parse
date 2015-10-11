@@ -3,7 +3,7 @@ module.exports = tokenize
 var repeat = require('string-repeat')
 var times = require('./times')
 var tokenizeContent = require('./tokenize-content')
-var tokens = require('./tokens')
+var TOKENS = require('./tokens')
 
 var INITIAL_SPACE = /^( *)/
 var INDENT_WIDTH = 4
@@ -31,7 +31,7 @@ function tokenize(text) {
       var contentTokens = tokenizeContent(content, lineNumber, contentColumn)
       // Newline
       var newlineToken = {
-        type: tokens.NEWLINE,
+        type: TOKENS.NEWLINE,
         line: ( lineNumber - 1),
         column: ( line.length + 1 ),
         string: '\n' }
@@ -59,7 +59,7 @@ function tokenize(text) {
           throw new Error('Line ' + lineNumber + ' is indented too far.') }
         else {
           var indentToken = {
-            type: tokens.INDENT,
+            type: TOKENS.INDENT,
             line: lineNumber,
             column: 1,
             string: indentationSpaces }
@@ -88,7 +88,7 @@ function tokenize(text) {
         var outdents = [ ]
         for (var i = 1; i <= outdentCount; i++) {
           outdents.push({
-            type: tokens.OUTDENT,
+            type: TOKENS.OUTDENT,
             line: lineNumber,
             column: 1,
             string: indentationSpaces }) }
@@ -103,13 +103,13 @@ function tokenize(text) {
       [ ])
     .concat(
       times(
-        { type: 'outdent',
+        { type: TOKENS.OUTDENT,
           line: lastLine,
           column: lastColumn,
           string: '' },
         lastIndentation))
     .concat({
-      type: 'end',
+      type: TOKENS.END,
       line: lastLine,
       column: lastColumn,
       string: '' }) }

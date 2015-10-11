@@ -1,10 +1,8 @@
+%start document
+
 %%
 
-E
-    : E PLUS T
-    | T
-    ;
-
-T
-    : ZERO
-    ;
+document
+  : TEXT EOF
+    { return $1 }
+  ;
