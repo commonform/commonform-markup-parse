@@ -76,23 +76,23 @@ function tokenizeLines(text) {
         //
         //  Line 4 is indented 2 levels less than line 3.
         //
-        //  The tokens for line 4 will begin with 2 DEDENT tokens.
+        //  The tokens for line 4 will begin with 2 OUTDENT tokens.
         //
         //  All together, in pseudo-tokens:
         //
         //      "A"
         //      INDENT  "B"
         //      INDENT  "C"
-        //      DEDENT  DEDENT  "D"
-        var dedentCount = ( lastIndentation - indentation )
-        var dedents = [ ]
-        for (var i = 1; i <= dedentCount; i++) {
-          dedents.push({
-            type: tokens.DEDENT,
+        //      OUTDENT  OUTDENT  "D"
+        var outdentCount = ( lastIndentation - indentation )
+        var outdents = [ ]
+        for (var i = 1; i <= outdentCount; i++) {
+          outdents.push({
+            type: tokens.OUTDENT,
             line: lineNumber,
             column: 1,
             string: indentationSpaces }) }
-        arrayOfTokens = dedents.concat(contentTokens) }
+        arrayOfTokens = outdents.concat(contentTokens) }
       lastIndentation = indentation
       lastColumn = ( contentColumn + content.length )
       lastLine = lineNumber
@@ -103,7 +103,7 @@ function tokenizeLines(text) {
       [ ])
     .concat(
       times(
-        { type: 'dedent',
+        { type: 'outdent',
           line: lastLine,
           column: lastColumn,
           string: '' },
