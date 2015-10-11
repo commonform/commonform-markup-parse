@@ -17,10 +17,10 @@ tape('tokenizer', function(test) {
     [ { type: 'text',    line: 1, column: 1, string: 'A' },
       { type: 'indent',  line: 2, column: 1, string: '    ' },
       { type: 'text',    line: 2, column: 5, string: 'B' },
-      { type: 'dedent',  line: 3, column: 1, string: '' },
+      { type: 'outdent',  line: 3, column: 1, string: '' },
       { type: 'text',    line: 3, column: 1, string: 'C' },
       { type: 'end',     line: 3, column: 2, string: '' } ],
-    'dedent')
+    'outdent')
 
   test.deepEqual(
     tokenize(
@@ -32,7 +32,7 @@ tape('tokenizer', function(test) {
       { type: 'text',    line: 2, column: 5, string: 'B' },
       { type: 'newline', line: 2, column: 6, string: '\n' },
       { type: 'text',    line: 3, column: 5, string: 'C' },
-      { type: 'dedent',  line: 3, column: 6, string: '' },
+      { type: 'outdent',  line: 3, column: 6, string: '' },
       { type: 'end',     line: 3, column: 6, string: '' } ],
     'consecutive at same level')
 
@@ -47,11 +47,11 @@ tape('tokenizer', function(test) {
       { type: 'text',    line: 2, column: 5, string: 'B' },
       { type: 'indent',  line: 3, column: 1, string: '        ' },
       { type: 'text',    line: 3, column: 9, string: 'C' },
-      { type: 'dedent',  line: 4, column: 1, string: '' },
-      { type: 'dedent',  line: 4, column: 1, string: '' },
+      { type: 'outdent',  line: 4, column: 1, string: '' },
+      { type: 'outdent',  line: 4, column: 1, string: '' },
       { type: 'text',    line: 4, column: 1, string: 'D' },
       { type: 'end',     line: 4, column: 2, string: '' } ],
-    'multiple dedent')
+    'multiple outdent')
 
   test.deepEqual(
     tokenize(
@@ -63,10 +63,10 @@ tape('tokenizer', function(test) {
       { type: 'text',    line: 2, column: 5, string: 'B' },
       { type: 'indent',  line: 3, column: 1, string: '        ' },
       { type: 'text',    line: 3, column: 9, string: 'C' },
-      { type: 'dedent',  line: 3, column: 10, string: '' },
-      { type: 'dedent',  line: 3, column: 10, string: '' },
+      { type: 'outdent',  line: 3, column: 10, string: '' },
+      { type: 'outdent',  line: 3, column: 10, string: '' },
       { type: 'end',     line: 3, column: 10, string: '' } ],
-    'emits terminal dedent tokens')
+    'emits terminal outdent tokens')
 
   test.throws(
     function() { tokenize('\ttest') },
