@@ -2,16 +2,35 @@
 
 %%
 
-document : inlineList END { return { content: $1 } } ;
+document : content END { return { content: $1 } } ;
 
-// Inline Content
+content
+  : paragraph
+    { $$ = $1 }
+  | paragraph INDENT childList OUTDENT
+    { $$ = $1.concat($3) }
+  | INDENT childList OUTDENT
+    { $$ = $2 }
+  ;
 
-inlineList
-  : inlineList TEXT       { $$ = $1.concat($2) }
-  | inlineList blank      { $$ = $1.concat($2) }
-  | inlineList definition { $$ = $1.concat($2) }
-  | inlineList reference  { $$ = $1.concat($2) }
-  | inlineList use        { $$ = $1.concat($2) }
+childList
+  : childList child
+    { $$ = $1.concat($2) }
+  | child
+    { $$ = [ $1 ] }
+  ;
+
+child
+  : SLASHES content
+    { $$ = { form: { content: $2 } } }
+  ;
+
+paragraph
+  : paragraph TEXT       { $$ = $1.concat($2) }
+  | paragraph blank      { $$ = $1.concat($2) }
+  | paragraph definition { $$ = $1.concat($2) }
+  | paragraph reference  { $$ = $1.concat($2) }
+  | paragraph use        { $$ = $1.concat($2) }
   | TEXT                  { $$ = [ $1 ] }
   | blank                 { $$ = [ $1 ] }
   | definition            { $$ = [ $1 ] }
