@@ -17,4 +17,3 @@ function CommonFormScanner() {
       last_line: line,
       last_column: ( column - 1 + string.length ) }
     return token.type } }
-
