@@ -53,4 +53,24 @@ tape('parser', function(test) {
         'b',
         { form: { content: [ 'c' ] } } ] } } ] })
 
+  test.deepEqual(
+    parse(
+      [ '    \\\\a',
+        'b',
+        '    \\\\c' ].join('\n')),
+    { content: [
+      { form: { content: [ 'a' ] } },
+      'b',
+      { form: { content: [ 'c' ] } } ] })
+
+  test.deepEqual(
+    parse(
+      [ 'a',
+        '    \\\\b',
+        'c' ].join('\n')),
+    { content: [
+      'a',
+      { form: { content: [ 'b' ] } },
+      'c' ] })
+
   test.end() })
