@@ -29,4 +29,28 @@ tape('parser', function(test) {
     parse('{Heading}'),
     { content: [ { reference: 'Heading' } ] })
 
+  test.deepEqual(
+    parse('    \\\\a test'),
+    { content: [ { form: { content: [ 'a test' ] } } ] })
+
+  test.deepEqual(
+    parse(
+      [ '    \\\\a',
+        '        \\\\b' ].join('\n')),
+    { content: [
+      { form: { content: [
+        'a',
+        { form: { content: [ 'b' ] } } ] } } ] })
+
+  test.deepEqual(
+    parse(
+      [ 'a',
+        '    \\\\b',
+        '        \\\\c' ].join('\n')),
+    { content: [
+      'a',
+      { form: { content: [
+        'b',
+        { form: { content: [ 'c' ] } } ] } } ] })
+
   test.end() })
