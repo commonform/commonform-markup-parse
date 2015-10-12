@@ -91,4 +91,21 @@ tape('parser', function(test) {
       { form: { content: [ 'c' ] } } ] },
     'consecutive children')
 
+  test.deepEqual(
+    parse([ '    !!a' ].join('\n')),
+    { content: [
+      { form: {
+          conspicuous: 'yes',
+          content: [ 'a' ] } } ] },
+    'conspicuous child')
+
+  test.deepEqual(
+    parse([ '    h!!a' ].join('\n')),
+    { content: [
+      { heading: 'h',
+        form: {
+          conspicuous: 'yes',
+          content: [ 'a' ] } } ] },
+    'conspicuous child')
+
   test.end() })
