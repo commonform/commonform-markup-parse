@@ -5,23 +5,27 @@ var TOKENS = require('./tokens')
 var CHARACTER = 'char'
 
 var CHAR_TOKENS = {
-  '\\': TOKENS.BACKSLASH,
   '[': TOKENS.LEFT_BRACKET,
   ']': TOKENS.RIGHT_BRACKET,
   '{': TOKENS.LEFT_BRACE,
   '}': TOKENS.RIGHT_BRACE,
   '<': TOKENS.LEFT_ANGLE,
-  '>': TOKENS.RIGHT_ANGLE,
-  '"': TOKENS.QUOTE }
+  '>': TOKENS.RIGHT_ANGLE }
+
+var DOUBLES = {
+  '"': TOKENS.QUOTES,
+  '\\': TOKENS.BACKSLASHES }
 
 // Non-printable-ASCII characters and tabs are not allowed.
 var ILLEGAL = /[^\x20-\x7E]|\t/
 
 function tokenizeContent(string, line, offset) {
   var arrayOfTokens = [ ]
+  var character
+  var last
   // For each character in the string
   for (var index = 0; index < string.length; index++) {
-    var character = string.charAt(index)
+    character = string.charAt(index)
     // If the character is illegal, throw an error.
     if (ILLEGAL.test(character)) {
       throw new Error(
@@ -34,13 +38,18 @@ function tokenizeContent(string, line, offset) {
         line: line,
         column: ( offset + index ),
         string: character }) }
-    // Otherwise, emit a character token.
     else {
-      arrayOfTokens.push({
-        type: CHARACTER,
-        line: line,
-        column: ( offset + index ),
-        string: character }) } }
+      last = arrayOfTokens[( arrayOfTokens.length - 1 )]
+      if (last && DOUBLES.hasOwnProperty(character) && last.string === character) {
+        last.type = DOUBLES[character]
+        last.string += character }
+      // Otherwise, emit a character token.
+      else {
+        arrayOfTokens.push({
+          type: CHARACTER,
+          line: line,
+          column: ( offset + index ),
+          string: character }) } } }
   // Combine consecutive character tokens into text tokens.
   return arrayOfTokens
     .reduce(
@@ -52,14 +61,13 @@ function tokenizeContent(string, line, offset) {
           ( token.type === CHARACTER) )
         if (consecutiveText) {
           returned[( returned.length - 1 )].string += token.string
-          precedingToken = token
           return returned }
         else {
-          precedingToken = token
           return returned.concat({
-            type: TOKENS.TEXT,
+            type: (
+              ( token.type === CHARACTER ) ?
+                TOKENS.TEXT : token.type ),
             column: token.column,
             line: token.line,
             string: token.string }) } },
       [ ]) }
-
