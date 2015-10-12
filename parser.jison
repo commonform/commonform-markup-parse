@@ -17,12 +17,12 @@ content
 
 paragraphsThenSeries
   : paragraphs series                       { $$ = $1.concat($2) }
-  | paragraphsThenSeries paragraphs series  { $$ = $1.concat($2).concat($3) }
+  | paragraphsThenSeries paragraphs series  { $$ = $1.concat($2, $3) }
   ;
 
 seriesThenParagraphs
   : series paragraphs                       { $$ = $1.concat($2) }
-  | seriesThenParagraphs series paragraphs  { $$ = $1.concat($2).concat($3) }
+  | seriesThenParagraphs series paragraphs  { $$ = $1.concat($2, $3) }
   ;
 
 series
