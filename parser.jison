@@ -25,22 +25,23 @@ seriesThenParagraphs
   | seriesThenParagraphs series paragraphs  { $$ = $1.concat($2).concat($3) }
   ;
 
-series :
-  INDENT childList OUTDENT  { $$ = $2 }
+series
+  : INDENT children OUTDENT  { $$ = $2 }
   ;
 
-childList
-  : childList child          { $$ = $1.concat($2) }
-  | child                    { $$ = [ $1 ] }
+children
+  : child           { $$ = [ $1 ] }
+  | children child  { $$ = $1.concat($2) }
   ;
 
 child
-  : SLASHES content  { $$ = { form: { content: $2 } } }
+  : SLASHES content            { $$ = { form: { content: $2 } } }
+  | SLASHES paragraphs NEWLINE { $$ = { form: { content: $2 } } }
   ;
 
 paragraphs
-  : paragraphs NEWLINE paragraph  { $$ = $1.concat($3) }
-  | paragraph                     { $$ = $1 }
+  : paragraph                     { $$ = $1 }
+  | paragraphs NEWLINE paragraph  { $$ = $1.concat($3) }
   ;
 
 paragraph
