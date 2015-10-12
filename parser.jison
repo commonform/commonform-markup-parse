@@ -2,7 +2,7 @@
 
 %%
 
-document : inlineList EOF { return { content: $1 } } ;
+document : inlineList END { return { content: $1 } } ;
 
 // Inline Content
 
