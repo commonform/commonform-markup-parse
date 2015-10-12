@@ -73,4 +73,22 @@ tape('parser', function(test) {
       { form: { content: [ 'b' ] } },
       'c' ] })
 
+  test.deepEqual(
+    parse(
+      [ 'a',
+        'b' ].join('\n')),
+    { content: [ 'a', 'b' ] },
+    'consecutive lines')
+
+  test.deepEqual(
+    parse(
+      [ 'a',
+        '    \\\\b',
+        '    \\\\c' ].join('\n')),
+    { content: [
+      'a',
+      { form: { content: [ 'b' ] } },
+      { form: { content: [ 'c' ] } } ] },
+    'consecutive children')
+
   test.end() })
