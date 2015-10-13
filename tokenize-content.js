@@ -14,7 +14,8 @@ var CHAR_TOKENS = {
 
 var DOUBLES = {
   '"': TOKENS.QUOTES,
-  "!": TOKENS.BANGS,
+  '!': TOKENS.BANGS,
+  '_': TOKENS.UNDERSCORES,
   '\\': TOKENS.BACKSLASHES }
 
 // Non-printable-ASCII characters and tabs are not allowed.

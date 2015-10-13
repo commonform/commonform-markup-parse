@@ -100,12 +100,19 @@ tape('parser', function(test) {
     'conspicuous child')
 
   test.deepEqual(
-    parse([ '    h!!a' ].join('\n')),
+    parse([ '    __h__!!a' ].join('\n')),
     { content: [
       { heading: 'h',
         form: {
           conspicuous: 'yes',
           content: [ 'a' ] } } ] },
+    'conspicuous child')
+
+  test.deepEqual(
+    parse([ '    __h__\\\\a' ].join('\n')),
+    { content: [
+      { heading: 'h',
+        form: { content: [ 'a' ] } } ] },
     'conspicuous child')
 
   test.end() })

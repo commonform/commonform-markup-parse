@@ -35,10 +35,29 @@ children
   ;
 
 child
-  : SLASHES childContent       { $$ = { form: { content: $2 } } }
-  | TEXT SLASHES childContent  { $$ = { heading: $1, form: { content: $3 } } }
-  | BANGS childContent         { $$ = { form: { conspicuous: 'yes', content: $2 } } }
-  | TEXT BANGS childContent    { $$ = { heading: $1, form: { conspicuous: 'yes', content: $3 } } }
+  : childWithHeading     { $$ = $1 }
+  | childWithoutHeading  { $$ = $1 }
+  ;
+
+childWithoutHeading
+  : SLASHES childContent  { $$ = { form: {
+                                     content: $2 } } }
+  | BANGS childContent    { $$ = { form: {
+                                     conspicuous: 'yes',
+                                     content: $2 } } }
+  ;
+
+childWithHeading
+  : heading SLASHES childContent { $$ = { heading: $1,
+                                          form: { content: $3 } } }
+  | heading BANGS childContent   { $$ = { heading: $1,
+                                          form: {
+                                            conspicuous: 'yes',
+                                            content: $3 } } }
+  ;
+
+heading
+  : UNDERSCORES TEXT UNDERSCORES { $$ = $2 }
   ;
 
 childContent
