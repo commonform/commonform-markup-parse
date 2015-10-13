@@ -6,6 +6,7 @@ var tokenizeContent = require('./tokenize-content')
 var TOKENS = require('./tokens')
 
 var ALL_SPACE = /^\s*$/
+var COMMENT = /^\s*#/
 var INITIAL_SPACE = /^( *)/
 var INDENT_WIDTH = 4
 
@@ -21,7 +22,7 @@ function tokenize(text) {
     .split('\n')
     // For each line, create an Array of tokens for indentation and content.
     .map(function(line, index) {
-      if (ALL_SPACE.test(line)) {
+      if ( ALL_SPACE.test(line) || COMMENT.test(line) ) {
         return [ ] }
       else {
         lastColumn = 0
@@ -42,7 +43,7 @@ function tokenize(text) {
           else {
             var newlineToken = {
               type: TOKENS.NEWLINE,
-              line: ( lineNumber - 1),
+              line: lastLine,
               column: ( line.length + 1 ),
               string: '\n' }
             arrayOfTokens = [ newlineToken ].concat(contentTokens) } }
