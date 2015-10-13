@@ -3,7 +3,7 @@
 %%
 
 document
-  : content END  { return { content: $1 } }
+  : content END  { return fix({ content: $1 }) }
   ;
 
 content
@@ -40,8 +40,7 @@ child
   ;
 
 childWithoutHeading
-  : SLASHES childContent  { $$ = { form: {
-                                     content: $2 } } }
+  : SLASHES childContent  { $$ = { form: { content: $2 } } }
   | BANGS childContent    { $$ = { form: {
                                      conspicuous: 'yes',
                                      content: $2 } } }
@@ -98,3 +97,7 @@ reference
 use
   : LEFT_ANGLE TEXT RIGHT_ANGLE  { $$ = { use: $2 } }
   ;
+
+%%
+
+var fix = require('commonform-fix-strings')
