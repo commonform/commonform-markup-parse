@@ -77,7 +77,7 @@ tape('parser', function(test) {
     parse(
       [ 'a',
         'b' ].join('\n')),
-    { content: [ 'a', 'b' ] },
+    { content: [ 'ab' ] },
     'consecutive lines')
 
   test.deepEqual(
@@ -114,5 +114,24 @@ tape('parser', function(test) {
       { heading: 'h',
         form: { content: [ 'a' ] } } ] },
     'with heading')
+
+  test.deepEqual(
+    parse([ '    __ h __\\\\a' ].join('\n')),
+    { content: [
+      { heading: 'h',
+        form: { content: [ 'a' ] } } ] },
+    'trim space in heading')
+
+  test.deepEqual(
+    parse([ '    __ a   b __\\\\a' ].join('\n')),
+    { content: [
+      { heading: 'a b',
+        form: { content: [ 'a' ] } } ] },
+    'collapse double space in heading')
+
+  test.deepEqual(
+    parse([ 'a    b' ].join('\n')),
+    { content: [ 'a b' ] },
+    'collapse double space in text')
 
   test.end() })
