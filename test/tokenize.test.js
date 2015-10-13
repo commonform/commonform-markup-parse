@@ -88,6 +88,17 @@ tape('tokenizer', function(test) {
 
   test.deepEqual(
     tokenize(
+      [ 'A',
+        '# Comment',
+        'B' ].join('\n')),
+    [ { type: 'TEXT',    line: 1, column: 1, string: 'A' },
+      { type: 'NEWLINE', line: 1, column: 2, string: '\n' },
+      { type: 'TEXT',    line: 3, column: 1, string: 'B' },
+      { type: 'END',     line: 3, column: 2, string: '' } ],
+    'ignores comment lines')
+
+  test.deepEqual(
+    tokenize(
       [ '',
         '',
         'A',
