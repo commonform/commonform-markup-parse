@@ -40,10 +40,10 @@ child
   ;
 
 childWithoutHeading
-  : SLASHES childContent  { $$ = { form: { content: $2 } } }
-  | BANGS childContent    { $$ = { form: {
+  : SLASHES SLASHES childContent  { $$ = { form: { content: $3 } } }
+  | SLASHES BANGS childContent    { $$ = { form: {
                                      conspicuous: 'yes',
-                                     content: $2 } } }
+                                     content: $3 } } }
   ;
 
 childWithHeading
@@ -56,7 +56,7 @@ childWithHeading
   ;
 
 heading
-  : UNDERSCORES TEXT UNDERSCORES { $$ = $2 }
+  : SLASHES TEXT { $$ = $2 }
   ;
 
 childContent
