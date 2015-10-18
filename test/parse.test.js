@@ -130,6 +130,11 @@ tape('parser', function(test) {
     'collapse double space in heading')
 
   test.deepEqual(
+    parse([ '    \\\\  \\\\a' ].join('\n')),
+    { content: [ { form: { content: [ 'a' ] } } ] },
+    'collapse double space in heading')
+
+  test.deepEqual(
     parse([ 'a    b' ].join('\n')),
     { content: [ 'a b' ] },
     'collapse double space in text')
