@@ -1,3 +1,8 @@
+// This module exports the top-level tokenizer ("lexical analyzer" or "lexer")
+// for Common Form markup. The exported function deals with tokenizing lines of
+// input. It utilizes the tokenizer in tokenize-content.js to handle tokens
+// within lines of input.
+
 module.exports = tokenize
 
 var repeat = require('string-repeat')
@@ -10,9 +15,16 @@ var COMMENT = /^\s*#/
 var INITIAL_SPACE = /^( *)/
 var INDENT_WIDTH = 4
 
+// Takes a string and returns an array of objects like:
+//
+//     { type: String, line: Number, column: Number, string: String }
+//
+// Line and column numbers are 1-indexed. (1 is the first line and the first
+// column in each line.) String values for certain tokens, like outdents, are
+// empty. Token type values are defined in tokens.json.
 function tokenize(text) {
   // Track the indentation of the last-seen line. This it the
-  // context-dependency that keeps us from parsing with a context-free grammar.
+  // context-dependency that keeps us from using a generated lexer.
   var lastIndentation = 0
   var lastLine = 0
   var lastColumn = 0
@@ -97,10 +109,13 @@ function tokenize(text) {
         lastColumn = ( contentColumn + content.length )
         lastLine = lineNumber
         return arrayOfTokens } })
+    // Flatten the array of arrays of tokens into one long array of tokens.
     .reduce(
       function(tokens, array) {
         return tokens.concat(array) },
       [ ])
+    // Add OUTDENT tokens for any INDENT tokens that haven't been cancelled out
+    // by an OUTDENT token yet.
     .concat(
       times(
         { type: TOKENS.OUTDENT,
@@ -108,6 +123,7 @@ function tokenize(text) {
           column: lastColumn,
           string: '' },
         lastIndentation))
+    // Add the terminal END token, somtimes called EOF or ENDMARKER.
     .concat({
       type: TOKENS.END,
       line: lastLine,
