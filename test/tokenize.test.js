@@ -30,7 +30,6 @@ tape('tokenizer', function(test) {
     [ { type: 'TEXT',    line: 1, column: 1, string: 'A' },
       { type: 'INDENT',  line: 2, column: 1, string: '    ' },
       { type: 'TEXT',    line: 2, column: 5, string: 'B' },
-      { type: 'NEWLINE', line: 2, column: 6, string: '\n' },
       { type: 'TEXT',    line: 3, column: 5, string: 'C' },
       { type: 'OUTDENT', line: 3, column: 6, string: '' },
       { type: 'END',     line: 3, column: 6, string: '' } ],
@@ -92,7 +91,6 @@ tape('tokenizer', function(test) {
         '# Comment',
         'B' ].join('\n')),
     [ { type: 'TEXT',    line: 1, column: 1, string: 'A' },
-      { type: 'NEWLINE', line: 1, column: 2, string: '\n' },
       { type: 'TEXT',    line: 3, column: 1, string: 'B' },
       { type: 'END',     line: 3, column: 2, string: '' } ],
     'ignores comment lines')

@@ -7,22 +7,22 @@ document
   ;
 
 content
-  : paragraphs                       { $$ = $1 }
-  | paragraphsThenSeries             { $$ = $1 }
-  | paragraphsThenSeries paragraphs  { $$ = $1.concat($2) }
-  | series                           { $$ = $1 }
-  | seriesThenParagraphs             { $$ = $1 }
-  | seriesThenParagraphs series      { $$ = $1.concat($2) }
+  : paragraph                      { $$ = $1 }
+  | paragraphThenSeries            { $$ = $1 }
+  | paragraphThenSeries paragraph  { $$ = $1.concat($2) }
+  | series                         { $$ = $1 }
+  | seriesThenparagraph            { $$ = $1 }
+  | seriesThenparagraph series     { $$ = $1.concat($2) }
   ;
 
-paragraphsThenSeries
-  : paragraphs series                       { $$ = $1.concat($2) }
-  | paragraphsThenSeries paragraphs series  { $$ = $1.concat($2, $3) }
+paragraphThenSeries
+  : paragraph series                      { $$ = $1.concat($2) }
+  | paragraphThenSeries paragraph series  { $$ = $1.concat($2, $3) }
   ;
 
-seriesThenParagraphs
-  : series paragraphs                       { $$ = $1.concat($2) }
-  | seriesThenParagraphs series paragraphs  { $$ = $1.concat($2, $3) }
+seriesThenparagraph
+  : series paragraph                      { $$ = $1.concat($2) }
+  | seriesThenparagraph series paragraph  { $$ = $1.concat($2, $3) }
   ;
 
 series
@@ -40,33 +40,23 @@ child
   ;
 
 childWithoutHeading
-  : SLASHES SLASHES childContent  { $$ = { form: { content: $3 } } }
-  | SLASHES BANGS childContent    { $$ = { form: {
-                                     conspicuous: 'yes',
-                                     content: $3 } } }
+  : SLASHES SLASHES content  { $$ = { form: { content: $3 } } }
+  | SLASHES BANGS content    { $$ = { form: {
+                                        conspicuous: 'yes',
+                                        content: $3 } } }
   ;
 
 childWithHeading
-  : heading SLASHES childContent { $$ = { heading: $1,
-                                          form: { content: $3 } } }
-  | heading BANGS childContent   { $$ = { heading: $1,
-                                          form: {
-                                            conspicuous: 'yes',
-                                            content: $3 } } }
+  : heading SLASHES content { $$ = { heading: $1,
+                                       form: { content: $3 } } }
+  | heading BANGS content   { $$ = { heading: $1,
+                                     form: {
+                                       conspicuous: 'yes',
+                                       content: $3 } } }
   ;
 
 heading
   : SLASHES TEXT { $$ = $2 }
-  ;
-
-childContent
-  : content             { $$ = $1 }
-  | paragraphs NEWLINE  { $$ = $1 }
-  ;
-
-paragraphs
-  : paragraph                     { $$ = $1 }
-  | paragraphs NEWLINE paragraph  { $$ = $1.concat($3) }
   ;
 
 paragraph
