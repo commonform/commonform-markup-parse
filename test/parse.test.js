@@ -30,13 +30,13 @@ tape('parser', function(test) {
     { content: [ { reference: 'Heading' } ] })
 
   test.deepEqual(
-    parse('    \\\\\\\\a test'),
+    parse('    \\\\a test'),
     { content: [ { form: { content: [ 'a test' ] } } ] })
 
   test.deepEqual(
     parse(
-      [ '    \\\\\\\\a',
-        '        \\\\\\\\b' ].join('\n')),
+      [ '    \\\\a',
+        '        \\\\b' ].join('\n')),
     { content: [
       { form: {
           content: [
@@ -46,8 +46,8 @@ tape('parser', function(test) {
   test.deepEqual(
     parse(
       [ 'a',
-        '    \\\\\\\\b',
-        '        \\\\\\\\c' ].join('\n')),
+        '    \\\\b',
+        '        \\\\c' ].join('\n')),
     { content: [
       'a',
       { form: {
@@ -57,9 +57,9 @@ tape('parser', function(test) {
 
   test.deepEqual(
     parse(
-      [ '    \\\\\\\\a',
+      [ '    \\\\a',
         'b',
-        '    \\\\\\\\c' ].join('\n')),
+        '    \\\\c' ].join('\n')),
     { content: [
         { form: { content: [ 'a' ] } },
         'b',
@@ -68,7 +68,7 @@ tape('parser', function(test) {
   test.deepEqual(
     parse(
       [ 'a',
-        '    \\\\\\\\b',
+        '    \\\\b',
         'c' ].join('\n')),
     { content: [
         'a',
@@ -85,8 +85,8 @@ tape('parser', function(test) {
   test.deepEqual(
     parse(
       [ 'a',
-        '    \\\\\\\\b',
-        '    \\\\\\\\c' ].join('\n')),
+        '    \\\\b',
+        '    \\\\c' ].join('\n')),
     { content: [
         'a',
         { form: { content: [ 'b' ] } },
@@ -94,7 +94,7 @@ tape('parser', function(test) {
     'consecutive children')
 
   test.deepEqual(
-    parse([ '    \\\\!!a' ].join('\n')),
+    parse([ '    \\!!a' ].join('\n')),
     { content: [
         { form: {
             conspicuous: 'yes',
@@ -102,7 +102,7 @@ tape('parser', function(test) {
     'conspicuous child')
 
   test.deepEqual(
-    parse([ '    \\\\h!!a' ].join('\n')),
+    parse([ '    \\h!!a' ].join('\n')),
     { content: [
         { heading: 'h',
           form: {
@@ -111,28 +111,28 @@ tape('parser', function(test) {
     'conspicuous with heading')
 
   test.deepEqual(
-    parse([ '    \\\\h\\\\a' ].join('\n')),
+    parse([ '    \\h\\a' ].join('\n')),
     { content: [
         { heading: 'h',
           form: { content: [ 'a' ] } } ] },
     'with heading')
 
   test.deepEqual(
-    parse([ '    \\\\h\\\\a' ].join('\n')),
+    parse([ '    \\h\\a' ].join('\n')),
     { content: [
         { heading: 'h',
           form: { content: [ 'a' ] } } ] },
     'trim space in heading')
 
   test.deepEqual(
-    parse([ '    \\\\a   b\\\\a' ].join('\n')),
+    parse([ '    \\a   b\\a' ].join('\n')),
     { content: [
         { heading: 'a b',
           form: { content: [ 'a' ] } } ] },
     'collapse double space in heading')
 
   test.deepEqual(
-    parse([ '    \\\\  \\\\a' ].join('\n')),
+    parse([ '    \\  \\a' ].join('\n')),
     { content: [ { form: { content: [ 'a' ] } } ] },
     'collapse double space in heading')
 
@@ -143,8 +143,8 @@ tape('parser', function(test) {
 
   test.deepEqual(
     parse([
-      '    \\\\\\\\A',
-      '        \\\\\\\\B' ].join('\n')),
+      '    \\\\A',
+      '        \\\\B' ].join('\n')),
       { content: [
           { form: {
               content: [
@@ -154,10 +154,10 @@ tape('parser', function(test) {
 
   test.deepEqual(
     parse([
-      '    \\\\\\\\A',
-      '        \\\\\\\\B',
+      '    \\\\A',
+      '        \\\\B',
       'C',
-      '    \\\\\\\\D' ].join('\n')),
+      '    \\\\D' ].join('\n')),
       { content: [
           { form: {
               content: [
@@ -169,13 +169,13 @@ tape('parser', function(test) {
 
   test.deepEqual(
     parse([
-      '    \\\\A\\\\',
-      '        \\\\B\\\\U',
-      '        \\\\C\\\\V',
-      '            \\\\\\\\W',
-      '            \\\\\\\\X',
+      '    \\A\\',
+      '        \\B\\U',
+      '        \\C\\V',
+      '            \\\\W',
+      '            \\\\X',
       '        Y',
-      '        \\\\\\\\Z' ].join('\n')),
+      '        \\\\Z' ].join('\n')),
       { content: [
           { heading: 'A',
             form: {
