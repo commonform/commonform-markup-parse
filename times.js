@@ -1,3 +1,5 @@
+// Build an array with n pointers to a given object.
+
 module.exports = times
 
 function times(object, times) {

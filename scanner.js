@@ -1,3 +1,8 @@
+// This module is an adapter from the tokenizer function to Jison, which has
+// its own Bison-like lexer API. In addition to emitting tokens as the
+// Jison-generated parser expects, the adapter also makes column and line
+// information available for error messages &c.
+
 module.exports = CommonFormScanner
 
 var tokenize = require('./tokenize')
@@ -13,7 +18,8 @@ function CommonFormScanner() {
     this.yytext = string
     this.yyloc = {
       first_line: line,
-      first_column: ( column - 1 ),
       last_line: line,
+      // Jison input columns are 0-indexed, not 1-indexed.
+      first_column: ( column - 1 ),
       last_column: ( column - 1 + string.length ) }
     return token.type } }

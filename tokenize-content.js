@@ -1,9 +1,18 @@
+// This module exports the tokenizer ("lexical analyzer" or "lexer") for
+// content within lines of Common Form markup. It does not handle indentation
+// or other line-based tokens. String input is passed to the top-level
+// tokenizer function in tokenize.js, which in turn uses this module.
+
 module.exports = tokenizeContent
 
 var TOKENS = require('./tokens')
 
+// A token type that is only used within this module for individual characters
+// of text. Contiguous character tokens are concatenated into longer text
+// tokens before they are returned.
 var CHARACTER = 'char'
 
+// Special characters with their own token types.
 var CHAR_TOKENS = {
   '\\': TOKENS.BACKSLASH,
   '[': TOKENS.LEFT_BRACKET,
@@ -13,6 +22,9 @@ var CHAR_TOKENS = {
   '<': TOKENS.LEFT_ANGLE,
   '>': TOKENS.RIGHT_ANGLE }
 
+// Token types that correspond to certain characters in immediate succession.
+// For example, two '"' in a row are a QUTOE token, but any single '"' alone
+// is a character that becomes part of a TEXT token.
 var DOUBLES = {
   '"': TOKENS.QUOTES,
   '!': TOKENS.BANGS }
@@ -41,6 +53,8 @@ function tokenizeContent(string, line, offset) {
         string: character }) }
     else {
       last = arrayOfTokens[( arrayOfTokens.length - 1 )]
+      // Is it the second character in a token comprised of two specific
+      // characters in succession?
       if (last && DOUBLES.hasOwnProperty(character) && last.string === character) {
         last.type = DOUBLES[character]
         last.string += character }
