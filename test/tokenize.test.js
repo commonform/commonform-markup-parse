@@ -20,7 +20,7 @@ tape('tokenizer', function(test) {
       { type: 'OUTDENT', line: 3, column: 1, string: '' },
       { type: 'TEXT',    line: 3, column: 1, string: 'C' },
       { type: 'END',     line: 3, column: 2, string: '' } ],
-    'OUTDENT')
+    'paragraph, indented, flush')
 
   test.deepEqual(
     tokenize(
@@ -114,10 +114,12 @@ tape('tokenizer', function(test) {
 
   test.throws(
     function() { tokenize('\ttest') },
-    /invalid character/i)
+    /invalid character/i,
+    'error on tab')
 
   test.throws(
     function() { tokenize('§ test') },
-    /invalid character/i)
+    /invalid character/i,
+    'error on non-ASCII')
 
   test.end() })

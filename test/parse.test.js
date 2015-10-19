@@ -5,33 +5,40 @@ tape('parser', function(test) {
 
   test.deepEqual(
     parse('a test'),
-    { content: [ 'a test' ] })
+    { content: [ 'a test' ] },
+    '"a test"')
 
   test.deepEqual(
     parse('a test ""Defined""'),
     { content: [
         'a test ',
-        { definition: 'Defined' } ] })
+        { definition: 'Defined' } ] },
+    'content with definition')
 
   test.deepEqual(
     parse('a test "Defined"'),
-    { content: [ 'a test "Defined"' ] })
+    { content: [ 'a test "Defined"' ] },
+    'content with quotation marks')
 
   test.deepEqual(
     parse('<Term>'),
-    { content: [ { use: 'Term' } ] })
+    { content: [ { use: 'Term' } ] },
+    'term use')
 
   test.deepEqual(
     parse('[Blank]'),
-    { content: [ { blank: 'Blank' } ] })
+    { content: [ { blank: 'Blank' } ] },
+    'blank')
 
   test.deepEqual(
     parse('{Heading}'),
-    { content: [ { reference: 'Heading' } ] })
+    { content: [ { reference: 'Heading' } ] },
+    'reference')
 
   test.deepEqual(
     parse('    \\\\a test'),
-    { content: [ { form: { content: [ 'a test' ] } } ] })
+    { content: [ { form: { content: [ 'a test' ] } } ] },
+    'single child')
 
   test.deepEqual(
     parse(
@@ -41,7 +48,8 @@ tape('parser', function(test) {
       { form: {
           content: [
             'a',
-            { form: { content: [ 'b' ] } } ] } } ] })
+            { form: { content: [ 'b' ] } } ] } } ] },
+    'grandchild')
 
   test.deepEqual(
     parse(
@@ -53,7 +61,8 @@ tape('parser', function(test) {
       { form: {
           content: [
             'b',
-            { form: { content: [ 'c' ] } } ] } } ] })
+            { form: { content: [ 'c' ] } } ] } } ] },
+    'paragraph, then child and grandchild')
 
   test.deepEqual(
     parse(
@@ -63,7 +72,8 @@ tape('parser', function(test) {
     { content: [
         { form: { content: [ 'a' ] } },
         'b',
-        { form: { content: [ 'c' ] } } ] })
+        { form: { content: [ 'c' ] } } ] },
+    'child, paragraph, then child')
 
   test.deepEqual(
     parse(
@@ -73,14 +83,15 @@ tape('parser', function(test) {
     { content: [
         'a',
         { form: { content: [ 'b' ] } },
-        'c' ] })
+        'c' ] },
+    'paragraph, child, then paragraph')
 
   test.deepEqual(
     parse(
       [ 'a',
         'b' ].join('\n')),
     { content: [ 'ab' ] },
-    'consecutive lines')
+    'consecutive lines of paragraph')
 
   test.deepEqual(
     parse(
@@ -91,7 +102,7 @@ tape('parser', function(test) {
         'a',
         { form: { content: [ 'b' ] } },
         { form: { content: [ 'c' ] } } ] },
-    'consecutive children')
+    'paragraph, then consecutive children')
 
   test.deepEqual(
     parse([ '    \\!!a' ].join('\n')),
@@ -115,7 +126,7 @@ tape('parser', function(test) {
     { content: [
         { heading: 'h',
           form: { content: [ 'a' ] } } ] },
-    'with heading')
+    'child with heading')
 
   test.deepEqual(
     parse([ '    \\h\\a' ].join('\n')),
@@ -140,17 +151,6 @@ tape('parser', function(test) {
     parse([ 'a    b' ].join('\n')),
     { content: [ 'a b' ] },
     'collapse double space in text')
-
-  test.deepEqual(
-    parse([
-      '    \\\\A',
-      '        \\\\B' ].join('\n')),
-      { content: [
-          { form: {
-              content: [
-                'A',
-                { form: { content: [ 'B' ] } } ] } } ] },
-      'text A text B')
 
   test.deepEqual(
     parse([
@@ -190,6 +190,6 @@ tape('parser', function(test) {
                       { form: { content: [ 'X' ] } },
                       'Y' ] } },
               { form: { content: [ 'Z' ] } } ] } } ] },
-      'real-world')
+      'real-world complexity')
 
   test.end() })
