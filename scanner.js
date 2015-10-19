@@ -15,6 +15,7 @@ function CommonFormScanner() {
     var string = token.string
     var line = token.line
     var column = token.column
+    this.yylineno = line
     this.yytext = string
     this.yyloc = {
       first_line: line,
