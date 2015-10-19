@@ -5,6 +5,7 @@ var TOKENS = require('./tokens')
 var CHARACTER = 'char'
 
 var CHAR_TOKENS = {
+  '\\': TOKENS.BACKSLASH,
   '[': TOKENS.LEFT_BRACKET,
   ']': TOKENS.RIGHT_BRACKET,
   '{': TOKENS.LEFT_BRACE,
@@ -14,8 +15,7 @@ var CHAR_TOKENS = {
 
 var DOUBLES = {
   '"': TOKENS.QUOTES,
-  '!': TOKENS.BANGS,
-  '\\': TOKENS.BACKSLASHES }
+  '!': TOKENS.BANGS }
 
 // Non-printable-ASCII characters and tabs are not allowed.
 var ILLEGAL = /[^\x20-\x7E]|\t/

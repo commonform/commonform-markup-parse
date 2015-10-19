@@ -40,23 +40,23 @@ child
   ;
 
 childWithoutHeading
-  : SLASHES SLASHES content  { $$ = { form: { content: $3 } } }
-  | SLASHES BANGS content    { $$ = { form: {
-                                        conspicuous: 'yes',
-                                        content: $3 } } }
+  : BACKSLASH BACKSLASH content  { $$ = { form: { content: $3 } } }
+  | BACKSLASH BANGS content      { $$ = { form: {
+                                            conspicuous: 'yes',
+                                            content: $3 } } }
   ;
 
 childWithHeading
-  : heading SLASHES content { $$ = { heading: $1,
-                                       form: { content: $3 } } }
-  | heading BANGS content   { $$ = { heading: $1,
-                                     form: {
-                                       conspicuous: 'yes',
-                                       content: $3 } } }
+  : heading BACKSLASH content { $$ = { heading: $1,
+                                         form: { content: $3 } } }
+  | heading BANGS content     { $$ = { heading: $1,
+                                         form: {
+                                           conspicuous: 'yes',
+                                           content: $3 } } }
   ;
 
 heading
-  : SLASHES TEXT { $$ = $2 }
+  : BACKSLASH TEXT { $$ = $2 }
   ;
 
 paragraph
