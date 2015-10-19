@@ -6,8 +6,6 @@
 
 module.exports = tokenizeContent
 
-var TOKENS = require('./tokens')
-
 // A token type that is only used within this module for individual characters
 // of text. Contiguous character tokens are concatenated into longer text
 // tokens before they are returned.
@@ -15,20 +13,20 @@ var CHARACTER = 'char'
 
 // Special characters with their own token types.
 var CHAR_TOKENS = {
-  '\\': TOKENS.BACKSLASH,
-  '[': TOKENS.LEFT_BRACKET,
-  ']': TOKENS.RIGHT_BRACKET,
-  '{': TOKENS.LEFT_BRACE,
-  '}': TOKENS.RIGHT_BRACE,
-  '<': TOKENS.LEFT_ANGLE,
-  '>': TOKENS.RIGHT_ANGLE }
+  '\\': 'BACKSLASH',
+  '[': 'LEFT_BRACKET',
+  ']': 'RIGHT_BRACKET',
+  '{': 'LEFT_BRACE',
+  '}': 'RIGHT_BRACE',
+  '<': 'LEFT_ANGLE',
+  '>': 'RIGHT_ANGLE' }
 
 // Token types that correspond to certain characters in immediate succession.
 // For example, two '"' in a row are a QUTOE token, but any single '"' alone
 // is a character that becomes part of a TEXT token.
 var DOUBLES = {
-  '"': TOKENS.QUOTES,
-  '!': TOKENS.BANGS }
+  '"': 'QUOTES',
+  '!': 'BANGS' }
 
 // Non-printable-ASCII characters and tabs are not allowed.
 var ILLEGAL = /[^\x20-\x7E]|\t/
@@ -82,7 +80,8 @@ function tokenizeContent(string, line, offset) {
           return returned.concat({
             type: (
               ( token.type === CHARACTER ) ?
-                TOKENS.TEXT : token.type ),
+                'TEXT' :
+                token.type ),
             column: token.column,
             line: token.line,
             string: token.string }) } },

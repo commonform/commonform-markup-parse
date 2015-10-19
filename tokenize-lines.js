@@ -8,7 +8,6 @@ module.exports = tokenize
 var repeat = require('string-repeat')
 var times = require('./times')
 var tokenizeContent = require('./tokenize-content')
-var TOKENS = require('./tokens')
 
 var ALL_SPACE = /^\s*$/
 var COMMENT = /^\s*#/
@@ -67,7 +66,7 @@ function tokenize(text) {
             throw new Error('Line ' + lineNumber + ' is indented too far.') }
           else {
             var indentToken = {
-              type: TOKENS.INDENT,
+              type: 'INDENT',
               line: lineNumber,
               column: 1,
               string: indentationSpaces }
@@ -98,7 +97,7 @@ function tokenize(text) {
           var outdents = [ ]
           for (var i = 1; i <= outdentCount; i++) {
             outdents.push({
-              type: TOKENS.OUTDENT,
+              type: 'OUTDENT',
               line: lineNumber,
               column: 1,
               string: indentationSpaces }) }
@@ -118,14 +117,14 @@ function tokenize(text) {
     // by an OUTDENT token yet.
     .concat(
       times(
-        { type: TOKENS.OUTDENT,
+        { type: 'OUTDENT',
           line: lastLine,
           column: lastColumn,
           string: '' },
         lastIndentation))
     // Add the terminal END token, somtimes called EOF or ENDMARKER.
     .concat({
-      type: TOKENS.END,
+      type: 'END',
       line: lastLine,
       column: lastColumn,
       string: '' }) }
