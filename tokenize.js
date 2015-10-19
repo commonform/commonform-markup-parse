@@ -16,7 +16,6 @@ function tokenize(text) {
   var lastIndentation = 0
   var lastLine = 0
   var lastColumn = 0
-  var seenContent = false
   return text
     // Split into lines.
     .split('\n')
@@ -35,18 +34,10 @@ function tokenize(text) {
         var content = line.substring(indentationSpaces.length)
         var contentColumn = ( indentationLength + 1 )
         var contentTokens = tokenizeContent(content, lineNumber, contentColumn)
-        var arrayOfTokens
+        var arrayOfTokens = [ ]
         // Same indentation as last line
         if (indentation === lastIndentation) {
-          if (!seenContent) {
-            arrayOfTokens = contentTokens }
-          else {
-            var newlineToken = {
-              type: TOKENS.NEWLINE,
-              line: lastLine,
-              column: ( line.length + 1 ),
-              string: '\n' }
-            arrayOfTokens = [ newlineToken ].concat(contentTokens) } }
+          arrayOfTokens = arrayOfTokens.concat(contentTokens) }
         // Indented further than last line
         else if (indentation > lastIndentation) {
           // Any line may be indented at most 1 level deeper.
@@ -68,7 +59,9 @@ function tokenize(text) {
               line: lineNumber,
               column: 1,
               string: indentationSpaces }
-            arrayOfTokens = [ indentToken ].concat(contentTokens) } }
+            arrayOfTokens = arrayOfTokens
+              .concat(indentToken)
+              .concat(contentTokens) } }
         // Indented less than last line
         else if (indentation < lastIndentation) {
           // This line may be indented any number of levels less than the
@@ -97,11 +90,12 @@ function tokenize(text) {
               line: lineNumber,
               column: 1,
               string: indentationSpaces }) }
-          arrayOfTokens = outdents.concat(contentTokens) }
+          arrayOfTokens = arrayOfTokens
+            .concat(outdents)
+            .concat(contentTokens) }
         lastIndentation = indentation
         lastColumn = ( contentColumn + content.length )
         lastLine = lineNumber
-        seenContent = true
         return arrayOfTokens } })
     .reduce(
       function(tokens, array) {
