@@ -5,7 +5,7 @@
 
 module.exports = CommonFormScanner
 
-var tokenize = require('./tokenize')
+var tokenize = require('./tokenize-lines')
 
 function CommonFormScanner() {
   this.setInput = function(string) {

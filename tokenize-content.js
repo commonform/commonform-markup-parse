@@ -1,7 +1,8 @@
-// This module exports the tokenizer ("lexical analyzer" or "lexer") for
-// content within lines of Common Form markup. It does not handle indentation
-// or other line-based tokens. String input is passed to the top-level
-// tokenizer function in tokenize.js, which in turn uses this module.
+// This module exports the tokenizer ("lexical analyzer" or "lexer")
+// for content within lines of Common Form markup. It does not handle
+// indentation or other line-based tokens. String input is passed to the
+// top-level tokenizer function in tokenize-lines.js, which in turn uses
+// this module.
 
 module.exports = tokenizeContent
 
