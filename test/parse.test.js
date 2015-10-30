@@ -27,8 +27,22 @@ tape('parser', function(test) {
 
   test.deepEqual(
     parse('[Blank]').form,
-    { content: [ { blank: 'Blank' } ] },
-    'blank')
+    { content: [ { blank: '' } ] },
+    'blank in form')
+
+  test.deepEqual(
+    parse('[Blank]').directions,
+    [ { identifier: 'Blank',
+        path: [ 'content', 0 ] } ],
+    'blank produces direction')
+
+  test.deepEqual(
+    parse(
+      [ '    \\\\a',
+        '        \\\\Here comes a [b]' ].join('\n')).directions,
+    [ { identifier: 'b',
+        path: [ 'content', 0, 'form', 'content', 1, 'form', 'content', 1 ] } ],
+    'deeply nested blank produces direction')
 
   test.deepEqual(
     parse('{Heading}').form,
