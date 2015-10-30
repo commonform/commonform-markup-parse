@@ -207,6 +207,11 @@ tape('parser', function(test) {
               { form: { content: [ 'Z' ] } } ] } } ] },
       'real-world complexity')
 
+  test.throws(
+    function() { parse('[a][b]').form },
+    Error,
+    'no contiguous blanks')
+
   tests
     .forEach(function(testCase) {
       if (testCase.error) {
