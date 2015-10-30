@@ -42,18 +42,18 @@ child
   | childWithoutHeading  { $$ = $1 };
 
 childWithoutHeading
-  : BACKSLASH BACKSLASH content  { $$ = { form: { content: $3 } } }
-  | BACKSLASH BANGS content      { $$ = { form: {
+  : BACKSLASH BACKSLASH content  { $$ = { form: fix({ content: $3 }) } }
+  | BACKSLASH BANGS content      { $$ = { form: fix({
                                             conspicuous: 'yes',
-                                            content: $3 } } };
+                                            content: $3 }) } };
 
 childWithHeading
   : heading BACKSLASH content { $$ = { heading: $1,
-                                         form: { content: $3 } } }
+                                         form: fix({ content: $3 }) } }
   | heading BANGS content     { $$ = { heading: $1,
-                                         form: {
+                                         form: fix({
                                            conspicuous: 'yes',
-                                           content: $3 } } };
+                                           content: $3 }) } };
 
 heading: BACKSLASH TEXT { $$ = $2 };
 

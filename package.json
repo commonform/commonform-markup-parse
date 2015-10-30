@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "dependencies": {
-    "commonform-fix-strings": "^0.2.1",
+    "commonform-fix-strings": "^0.2.2",
     "string-repeat": "^1.1.1"
   },
   "devDependencies": {
+    "commonform-markup-tests": "^0.2.0",
     "jison": "^0.4.15",
     "tap-difflet": "^0.4.0",
     "tape": "^4.2.1"

@@ -1,5 +1,6 @@
 var tape = require('tape')
 var parse = require('..')
+var tests = require('commonform-markup-tests')
 
 tape('parser', function(test) {
 
@@ -205,5 +206,18 @@ tape('parser', function(test) {
                       'Y' ] } },
               { form: { content: [ 'Z' ] } } ] } } ] },
       'real-world complexity')
+
+  tests
+    .forEach(function(testCase) {
+      if (testCase.error) {
+        test.throws(
+          function() { parse(testCase.markup) },
+          Error,
+          testCase.comment) }
+      else {
+        test.deepEqual(
+          parse(testCase.markup).form,
+          testCase.form,
+          testCase.comment) } })
 
   test.end() })
