@@ -4,46 +4,46 @@ var parse = require('..')
 tape('parser', function(test) {
 
   test.deepEqual(
-    parse('a test'),
+    parse('a test').form,
     { content: [ 'a test' ] },
     '"a test"')
 
   test.deepEqual(
-    parse('a test ""Defined""'),
+    parse('a test ""Defined""').form,
     { content: [
         'a test ',
         { definition: 'Defined' } ] },
     'content with definition')
 
   test.deepEqual(
-    parse('a test "Defined"'),
+    parse('a test "Defined"').form,
     { content: [ 'a test "Defined"' ] },
     'content with quotation marks')
 
   test.deepEqual(
-    parse('<Term>'),
+    parse('<Term>').form,
     { content: [ { use: 'Term' } ] },
     'term use')
 
   test.deepEqual(
-    parse('[Blank]'),
+    parse('[Blank]').form,
     { content: [ { blank: 'Blank' } ] },
     'blank')
 
   test.deepEqual(
-    parse('{Heading}'),
+    parse('{Heading}').form,
     { content: [ { reference: 'Heading' } ] },
     'reference')
 
   test.deepEqual(
-    parse('    \\\\a test'),
+    parse('    \\\\a test').form,
     { content: [ { form: { content: [ 'a test' ] } } ] },
     'single child')
 
   test.deepEqual(
     parse(
       [ '    \\\\a',
-        '        \\\\b' ].join('\n')),
+        '        \\\\b' ].join('\n')).form,
     { content: [
       { form: {
           content: [
@@ -55,7 +55,7 @@ tape('parser', function(test) {
     parse(
       [ 'a',
         '    \\\\b',
-        '        \\\\c' ].join('\n')),
+        '        \\\\c' ].join('\n')).form,
     { content: [
       'a',
       { form: {
@@ -68,7 +68,7 @@ tape('parser', function(test) {
     parse(
       [ '    \\\\a',
         'b',
-        '    \\\\c' ].join('\n')),
+        '    \\\\c' ].join('\n')).form,
     { content: [
         { form: { content: [ 'a' ] } },
         'b',
@@ -79,7 +79,7 @@ tape('parser', function(test) {
     parse(
       [ 'a',
         '    \\\\b',
-        'c' ].join('\n')),
+        'c' ].join('\n')).form,
     { content: [
         'a',
         { form: { content: [ 'b' ] } },
@@ -89,7 +89,7 @@ tape('parser', function(test) {
   test.deepEqual(
     parse(
       [ 'a',
-        'b' ].join('\n')),
+        'b' ].join('\n')).form,
     { content: [ 'ab' ] },
     'consecutive lines of paragraph')
 
@@ -97,7 +97,7 @@ tape('parser', function(test) {
     parse(
       [ 'a',
         '    \\\\b',
-        '    \\\\c' ].join('\n')),
+        '    \\\\c' ].join('\n')).form,
     { content: [
         'a',
         { form: { content: [ 'b' ] } },
@@ -105,7 +105,7 @@ tape('parser', function(test) {
     'paragraph, then consecutive children')
 
   test.deepEqual(
-    parse([ '    \\!!a' ].join('\n')),
+    parse([ '    \\!!a' ].join('\n')).form,
     { content: [
         { form: {
             conspicuous: 'yes',
@@ -113,7 +113,7 @@ tape('parser', function(test) {
     'conspicuous child')
 
   test.deepEqual(
-    parse([ '    \\h!!a' ].join('\n')),
+    parse([ '    \\h!!a' ].join('\n')).form,
     { content: [
         { heading: 'h',
           form: {
@@ -122,33 +122,33 @@ tape('parser', function(test) {
     'conspicuous with heading')
 
   test.deepEqual(
-    parse([ '    \\h\\a' ].join('\n')),
+    parse([ '    \\h\\a' ].join('\n')).form,
     { content: [
         { heading: 'h',
           form: { content: [ 'a' ] } } ] },
     'child with heading')
 
   test.deepEqual(
-    parse([ '    \\h\\a' ].join('\n')),
+    parse([ '    \\h\\a' ].join('\n')).form,
     { content: [
         { heading: 'h',
           form: { content: [ 'a' ] } } ] },
     'trim space in heading')
 
   test.deepEqual(
-    parse([ '    \\a   b\\a' ].join('\n')),
+    parse([ '    \\a   b\\a' ].join('\n')).form,
     { content: [
         { heading: 'a b',
           form: { content: [ 'a' ] } } ] },
     'collapse double space in heading')
 
   test.deepEqual(
-    parse([ '    \\  \\a' ].join('\n')),
+    parse([ '    \\  \\a' ].join('\n')).form,
     { content: [ { form: { content: [ 'a' ] } } ] },
     'collapse double space in heading')
 
   test.deepEqual(
-    parse([ 'a    b' ].join('\n')),
+    parse([ 'a    b' ].join('\n')).form,
     { content: [ 'a b' ] },
     'collapse double space in text')
 
@@ -157,7 +157,7 @@ tape('parser', function(test) {
       '    \\\\A',
       '        \\\\B',
       'C',
-      '    \\\\D' ].join('\n')),
+      '    \\\\D' ].join('\n')).form,
       { content: [
           { form: {
               content: [
@@ -175,7 +175,7 @@ tape('parser', function(test) {
       '            \\\\W',
       '            \\\\X',
       '        Y',
-      '        \\\\Z' ].join('\n')),
+      '        \\\\Z' ].join('\n')).form,
       { content: [
           { heading: 'A',
             form: {
