@@ -1,6 +1,6 @@
 {
   "name": "commonform-markup-parse",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
   "dependencies": {
     "commonform-fix-strings": "^0.2.2",
