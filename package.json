@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "commonform-markup-tests": "^0.2.0",
-    "jison": "^0.4.15",
+    "jison": "0.4.15",
     "tap-difflet": "^0.4.0",
     "tape": "^4.2.1"
   },
