@@ -13,6 +13,7 @@ var ALL_SPACE = /^\s*$/
 var COMMENT = /^\s*#/
 var INITIAL_SPACE = /^( *)/
 var INDENT_WIDTH = 4
+var NEWLINE = /\r\n?|\n/g
 
 // Takes a string and returns an array of objects like:
 //
@@ -29,7 +30,7 @@ function tokenize(text) {
   var lastColumn = 0
   return text
     // Split into lines.
-    .split('\n')
+    .split(NEWLINE)
     // For each line, create an Array of tokens for indentation and content.
     .map(function(line, index) {
       if ( ALL_SPACE.test(line) || COMMENT.test(line) ) {

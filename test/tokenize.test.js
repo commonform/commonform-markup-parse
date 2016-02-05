@@ -112,6 +112,40 @@ tape('tokenizer', function(test) {
       { type: 'END',     line: 5, column: 10, string: '' } ],
     'ignores initial blank lines')
 
+  test.deepEqual(
+    tokenize(
+      [ 'A',
+        '    B',
+        '        C',
+        'D' ].join('\r')),
+    [ { type: 'TEXT',    line: 1, column: 1, string: 'A' },
+      { type: 'INDENT',  line: 2, column: 1, string: '    ' },
+      { type: 'TEXT',    line: 2, column: 5, string: 'B' },
+      { type: 'INDENT',  line: 3, column: 1, string: '        ' },
+      { type: 'TEXT',    line: 3, column: 9, string: 'C' },
+      { type: 'OUTDENT', line: 4, column: 1, string: '' },
+      { type: 'OUTDENT', line: 4, column: 1, string: '' },
+      { type: 'TEXT',    line: 4, column: 1, string: 'D' },
+      { type: 'END',     line: 4, column: 2, string: '' } ],
+    'breaks lines on carriage returns')
+
+  test.deepEqual(
+    tokenize(
+      [ 'A',
+        '    B',
+        '        C',
+        'D' ].join('\r\n')),
+    [ { type: 'TEXT',    line: 1, column: 1, string: 'A' },
+      { type: 'INDENT',  line: 2, column: 1, string: '    ' },
+      { type: 'TEXT',    line: 2, column: 5, string: 'B' },
+      { type: 'INDENT',  line: 3, column: 1, string: '        ' },
+      { type: 'TEXT',    line: 3, column: 9, string: 'C' },
+      { type: 'OUTDENT', line: 4, column: 1, string: '' },
+      { type: 'OUTDENT', line: 4, column: 1, string: '' },
+      { type: 'TEXT',    line: 4, column: 1, string: 'D' },
+      { type: 'END',     line: 4, column: 2, string: '' } ],
+    'breaks lines on carriage return and line feed')
+
   test.throws(
     function() { tokenize('\ttest') },
     /invalid character/i,
