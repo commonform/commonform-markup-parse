@@ -105,7 +105,7 @@ tape('parser', function(test) {
     parse(
       [ 'a',
         'b' ].join('\n')).form,
-    { content: [ 'ab' ] },
+    { content: [ 'a b' ] },
     'consecutive lines of paragraph')
 
   test.deepEqual(
