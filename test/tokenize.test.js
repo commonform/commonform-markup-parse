@@ -10,6 +10,18 @@ tape('tokenizer', function(test) {
     'just text')
 
   test.deepEqual(
+    tokenize('escaped ~\\ backslash'),
+    [ { type: 'TEXT',    line: 1, column: 1, string: 'escaped \\ backslash' },
+      { type: 'END',     line: 1, column: 21, string: '' } ],
+    'escaped control character')
+
+  test.deepEqual(
+    tokenize('tilde ~~ character'),
+    [ { type: 'TEXT',    line: 1, column: 1, string: 'tilde ~ character' },
+      { type: 'END',     line: 1, column: 19, string: '' } ],
+    'escaped escape tilde')
+
+  test.deepEqual(
     tokenize(
       [ 'A',
         '    B',

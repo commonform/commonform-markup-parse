@@ -31,39 +31,52 @@ var DOUBLES = {
 // Non-printable-ASCII characters and tabs are not allowed.
 var ILLEGAL = /[^\x20-\x7E]|\t/
 
+// Escape character
+var ESCAPE = '~'
+
 function tokenizeContent(string, line, offset) {
   var arrayOfTokens = [ ]
   var character
   var last
+  var escaped = false
   // For each character in the string
   for (var index = 0; index < string.length; index++) {
     character = string.charAt(index)
-    // If the character is illegal, throw an error.
-    if (ILLEGAL.test(character)) {
-      throw new Error(
-        'Invalid character "' + character + '"' +
-        ' at line ' + line + ' column ' + ( offset + index )) }
-    // If it's potentially a special character, emit the corresponding token.
-    else if (CHAR_TOKENS.hasOwnProperty(character)) {
+    if (escaped) {
       arrayOfTokens.push({
-        type: CHAR_TOKENS[character],
+        type: CHARACTER,
         line: line,
-        column: ( offset + index ),
+        column: ( offset + index - 1 ),
         string: character }) }
     else {
-      last = arrayOfTokens[( arrayOfTokens.length - 1 )]
-      // Is it the second character in a token comprised of two specific
-      // characters in succession?
-      if (last && DOUBLES.hasOwnProperty(character) && last.string === character) {
-        last.type = DOUBLES[character]
-        last.string += character }
-      // Otherwise, emit a character token.
-      else {
+      // If the character is illegal, throw an error.
+      if (ILLEGAL.test(character)) {
+        throw new Error(
+          'Invalid character "' + character + '"' +
+          ' at line ' + line + ' column ' + ( offset + index )) }
+      else if (character === ESCAPE) {
+        escaped = true }
+      // If it's potentially a special character, emit the corresponding token.
+      else if (CHAR_TOKENS.hasOwnProperty(character)) {
         arrayOfTokens.push({
-          type: CHARACTER,
+          type: CHAR_TOKENS[character],
           line: line,
           column: ( offset + index ),
-          string: character }) } } }
+          string: character }) }
+      else {
+        last = arrayOfTokens[( arrayOfTokens.length - 1 )]
+        // Is it the second character in a token comprised of two specific
+        // characters in succession?
+        if (last && DOUBLES.hasOwnProperty(character) && last.string === character) {
+          last.type = DOUBLES[character]
+          last.string += character }
+        // Otherwise, emit a character token.
+        else {
+          arrayOfTokens.push({
+            type: CHARACTER,
+            line: line,
+            column: ( offset + index ),
+            string: character }) } } } }
   // Combine consecutive character tokens into text tokens.
   return arrayOfTokens
     .reduce(
