@@ -42,7 +42,12 @@ function tokenizeContent(string, line, offset) {
   // For each character in the string
   for (var index = 0; index < string.length; index++) {
     character = string.charAt(index)
-    if (escaped) {
+    // If the character is illegal, throw an error.
+    if (ILLEGAL.test(character)) {
+      throw new Error(
+        'Invalid character "' + character + '"' +
+        ' at line ' + line + ' column ' + ( offset + index )) }
+    else if (escaped) {
       arrayOfTokens.push({
         type: CHARACTER,
         line: line,
@@ -50,12 +55,7 @@ function tokenizeContent(string, line, offset) {
         string: character })
       escaped = false }
     else {
-      // If the character is illegal, throw an error.
-      if (ILLEGAL.test(character)) {
-        throw new Error(
-          'Invalid character "' + character + '"' +
-          ' at line ' + line + ' column ' + ( offset + index )) }
-      else if (character === ESCAPE) {
+      if (character === ESCAPE) {
         escaped = true }
       // If it's potentially a special character, emit the corresponding token.
       else if (CHAR_TOKENS.hasOwnProperty(character)) {

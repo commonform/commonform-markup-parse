@@ -177,4 +177,9 @@ tape('tokenizer', function(test) {
     /invalid character/i,
     'error on non-ASCII')
 
+  test.throws(
+    function() { tokenize('~\t\nmore') },
+    /invalid character/i,
+    'error on escape before illegal')
+
   test.end() })
