@@ -22,6 +22,15 @@ tape('tokenizer', function(test) {
     'escaped escape tilde')
 
   test.deepEqual(
+    tokenize('~~""Term""'),
+    [ { type: 'TEXT',    line: 1, column: 1, string: '~' },
+      { type: 'QUOTES',  line: 1, column: 3, string: '""' },
+      { type: 'TEXT',    line: 1, column: 5, string: 'Term' },
+      { type: 'QUOTES',  line: 1, column: 9, string: '""' },
+      { type: 'END',     line: 1, column: 11, string: '' } ],
+    'control characters after escape')
+
+  test.deepEqual(
     tokenize(
       [ 'A',
         '    B',

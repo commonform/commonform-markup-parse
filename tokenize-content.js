@@ -47,7 +47,8 @@ function tokenizeContent(string, line, offset) {
         type: CHARACTER,
         line: line,
         column: ( offset + index - 1 ),
-        string: character }) }
+        string: character })
+      escaped = false }
     else {
       // If the character is illegal, throw an error.
       if (ILLEGAL.test(character)) {
