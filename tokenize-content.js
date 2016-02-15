@@ -78,6 +78,12 @@ function tokenizeContent(string, line, offset) {
             line: line,
             column: ( offset + index ),
             string: character }) } } } }
+  // Add a space token to the end of every line.
+  arrayOfTokens.push({
+    type: CHARACTER,
+    line: line,
+    column: ( offset + string.length ),
+    string: ' ' })
   // Combine consecutive character tokens into text tokens.
   return arrayOfTokens
     .reduce(
