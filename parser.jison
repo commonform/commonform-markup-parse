@@ -48,12 +48,12 @@ childWithoutHeading
                                             content: $3 }) } };
 
 childWithHeading
-  : heading BACKSLASH content { $$ = { heading: $1,
-                                         form: fix({ content: $3 }) } }
-  | heading BANGS content     { $$ = { heading: $1,
-                                         form: fix({
-                                           conspicuous: 'yes',
-                                           content: $3 }) } };
+  : heading BACKSLASH content  { $$ = { heading: $1,
+                                        form: fix({ content: $3 }) } }
+  | heading BANGS content      { $$ = { heading: $1,
+                                        form: fix({
+                                          conspicuous: 'yes',
+                                          content: $3 }) } };
 
 heading: BACKSLASH TEXT { $$ = $2 };
 
@@ -75,9 +75,9 @@ blank
   : LEFT_BRACKET TEXT RIGHT_BRACKET  { $$ = { blank: $2 } }
   | LEFT_BRACKET RIGHT_BRACKET       { $$ = { blank: '' } };
 
-definition: QUOTES       TEXT QUOTES         { $$ = { definition: $2 } };
-reference:  LEFT_BRACE   TEXT RIGHT_BRACE    { $$ = { reference: $2 } };
-use:        LEFT_ANGLE   TEXT RIGHT_ANGLE    { $$ = { use: $2 } };
+definition: QUOTES       TEXT QUOTES       { $$ = { definition: $2 } };
+reference:  LEFT_BRACE   TEXT RIGHT_BRACE  { $$ = { reference: $2 } };
+use:        LEFT_ANGLE   TEXT RIGHT_ANGLE  { $$ = { use: $2 } };
 
 %%
 
