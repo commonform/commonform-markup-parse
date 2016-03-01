@@ -7,7 +7,7 @@
     "string-repeat": "^1.1.1"
   },
   "devDependencies": {
-    "commonform-markup-tests": "^0.2.0",
+    "commonform-markup-tests": "commonform/commonform-markup-tests#end-of-line-space",
     "jison": "0.4.15",
     "tap-difflet": "^0.4.0",
     "tape": "^4.2.1"
