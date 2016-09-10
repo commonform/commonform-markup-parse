@@ -4,9 +4,6 @@ node_js:
 - '4'
 - node
 sudo: false
-cache:
-  directories:
-  - node_modules
 script:
 - npm test
 - npm run lint
