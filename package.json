@@ -10,7 +10,7 @@
     "commonform-markup-tests": "^0.2.0",
     "jison": "0.4.15",
     "standard": "^8.0.0",
-    "tap-difflet": "^0.4.0",
+    "tap-difflet": "^0.7.0",
     "tape": "^4.2.1"
   },
   "license": "Apache-2.0",
