@@ -360,8 +360,9 @@ tape('parser', function (test) {
         function () {
           parse(testCase.markup)
         },
-        Error,
-        testCase.comment)
+        testCase.error,
+        testCase.comment
+      )
     } else {
       test.deepEqual(
         parse(testCase.markup).form,
