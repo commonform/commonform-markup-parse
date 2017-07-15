@@ -1,6 +1,41 @@
 Parse Common Form markup, returning an object containing a form and
 an array of path-to-blank mappings.
 
+# Markup
+
+Common Form markup utilizes rarely-used symbols you can type with your keyboard to structure agreements and indicate definitions, uses of defined terms, fill-in-the-blanks, and cross-references between provisions. For example:
+
+```commonform
+This Agreement (this ""Agreement"") is made effective as of
+[Effective Date] by and between [Seller's Legal Name] (""Seller"") and
+[Buyer's Legal Name] (""Buyer"").
+
+    \Definitions\  For purposes of this <Agreement>, the following terms
+have the following meanings:
+
+        \\  ""Capital Stock"" means the capital stock of the Company,
+    including, without limitation, the <Common Stock> and the <Preferred
+    Stock>.
+
+        \\  ""Dissolution Event"" means:
+
+            \\  a voluntary termination of operations pursuant to {Voluntary
+    Shutdown};
+
+            \\  a general assignment for the benefit of the <Company>'s
+    creditors or
+
+            \\  any other liquidation, dissolution or winding up of the
+    <Company> (excluding a <Liquidity Event>), whether voluntary or
+    involuntary.
+```
+
+Each subdivision of the form begins with `\\`, indented by four spaces. If the provision has a heading, it goes within the slashes, like `\Definitions\ ...`.
+
+Within a provision, terms being defined are set in `""double quotation marks""`.  Defined terms being used are typed `<within angle brackets>`. A cross-reference to a provision with a `{Particular Heading}` is with braces.  `[Blanks to be filled in]` use square brackets.
+
+# The Parser
+
 ```javascript
 var parse = require('commonform-markup-parse')
 parse(stringOfMarkup); // => {form: Object, directions: Array}
