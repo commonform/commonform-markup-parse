@@ -5,8 +5,8 @@ tape('tokenizer', function (test) {
   test.deepEqual(
     tokenize('a test'),
     [
-      {type: 'TEXT', line: 1, column: 1, string: 'a test'},
-      {type: 'END', line: 1, column: 7, string: ''}
+      { type: 'TEXT', line: 1, column: 1, string: 'a test' },
+      { type: 'END', line: 1, column: 7, string: '' }
     ],
     'just text'
   )
@@ -14,8 +14,8 @@ tape('tokenizer', function (test) {
   test.deepEqual(
     tokenize('escaped ~\\ slash'),
     [
-      {type: 'TEXT', line: 1, column: 1, string: 'escaped \\ slash'},
-      {type: 'END', line: 1, column: 17, string: ''}
+      { type: 'TEXT', line: 1, column: 1, string: 'escaped \\ slash' },
+      { type: 'END', line: 1, column: 17, string: '' }
     ],
     'escaped control character'
   )
@@ -23,8 +23,8 @@ tape('tokenizer', function (test) {
   test.deepEqual(
     tokenize('tilde ~~ character'),
     [
-      {type: 'TEXT', line: 1, column: 1, string: 'tilde ~ character'},
-      {type: 'END', line: 1, column: 19, string: ''}
+      { type: 'TEXT', line: 1, column: 1, string: 'tilde ~ character' },
+      { type: 'END', line: 1, column: 19, string: '' }
     ],
     'escaped escape tilde'
   )
@@ -32,11 +32,11 @@ tape('tokenizer', function (test) {
   test.deepEqual(
     tokenize('~~""Term""'),
     [
-      {type: 'TEXT', line: 1, column: 1, string: '~'},
-      {type: 'QUOTES', line: 1, column: 3, string: '""'},
-      {type: 'TEXT', line: 1, column: 5, string: 'Term'},
-      {type: 'QUOTES', line: 1, column: 9, string: '""'},
-      {type: 'END', line: 1, column: 11, string: ''}
+      { type: 'TEXT', line: 1, column: 1, string: '~' },
+      { type: 'QUOTES', line: 1, column: 3, string: '""' },
+      { type: 'TEXT', line: 1, column: 5, string: 'Term' },
+      { type: 'QUOTES', line: 1, column: 9, string: '""' },
+      { type: 'END', line: 1, column: 11, string: '' }
     ],
     'control characters after escape'
   )
@@ -48,15 +48,15 @@ tape('tokenizer', function (test) {
         '    B',
         'C'
       ]
-      .join('\n')
+        .join('\n')
     ),
     [
-      {type: 'TEXT', line: 1, column: 1, string: 'A'},
-      {type: 'INDENT', line: 2, column: 1, string: '    '},
-      {type: 'TEXT', line: 2, column: 5, string: 'B'},
-      {type: 'OUTDENT', line: 3, column: 1, string: ''},
-      {type: 'TEXT', line: 3, column: 1, string: 'C'},
-      {type: 'END', line: 3, column: 2, string: ''}
+      { type: 'TEXT', line: 1, column: 1, string: 'A' },
+      { type: 'INDENT', line: 2, column: 1, string: '    ' },
+      { type: 'TEXT', line: 2, column: 5, string: 'B' },
+      { type: 'OUTDENT', line: 3, column: 1, string: '' },
+      { type: 'TEXT', line: 3, column: 1, string: 'C' },
+      { type: 'END', line: 3, column: 2, string: '' }
     ],
     'paragraph, indented, flush'
   )
@@ -68,15 +68,15 @@ tape('tokenizer', function (test) {
         '    B',
         '    C'
       ]
-      .join('\n')
+        .join('\n')
     ),
     [
-      {type: 'TEXT', line: 1, column: 1, string: 'A'},
-      {type: 'INDENT', line: 2, column: 1, string: '    '},
-      {type: 'TEXT', line: 2, column: 5, string: 'B'},
-      {type: 'TEXT', line: 3, column: 5, string: 'C'},
-      {type: 'OUTDENT', line: 3, column: 6, string: ''},
-      {type: 'END', line: 3, column: 6, string: ''}
+      { type: 'TEXT', line: 1, column: 1, string: 'A' },
+      { type: 'INDENT', line: 2, column: 1, string: '    ' },
+      { type: 'TEXT', line: 2, column: 5, string: 'B' },
+      { type: 'TEXT', line: 3, column: 5, string: 'C' },
+      { type: 'OUTDENT', line: 3, column: 6, string: '' },
+      { type: 'END', line: 3, column: 6, string: '' }
     ],
     'consecutive at same level'
   )
@@ -89,18 +89,18 @@ tape('tokenizer', function (test) {
         '        C',
         'D'
       ]
-      .join('\n')
+        .join('\n')
     ),
     [
-      {type: 'TEXT', line: 1, column: 1, string: 'A'},
-      {type: 'INDENT', line: 2, column: 1, string: '    '},
-      {type: 'TEXT', line: 2, column: 5, string: 'B'},
-      {type: 'INDENT', line: 3, column: 1, string: '        '},
-      {type: 'TEXT', line: 3, column: 9, string: 'C'},
-      {type: 'OUTDENT', line: 4, column: 1, string: ''},
-      {type: 'OUTDENT', line: 4, column: 1, string: ''},
-      {type: 'TEXT', line: 4, column: 1, string: 'D'},
-      {type: 'END', line: 4, column: 2, string: ''}
+      { type: 'TEXT', line: 1, column: 1, string: 'A' },
+      { type: 'INDENT', line: 2, column: 1, string: '    ' },
+      { type: 'TEXT', line: 2, column: 5, string: 'B' },
+      { type: 'INDENT', line: 3, column: 1, string: '        ' },
+      { type: 'TEXT', line: 3, column: 9, string: 'C' },
+      { type: 'OUTDENT', line: 4, column: 1, string: '' },
+      { type: 'OUTDENT', line: 4, column: 1, string: '' },
+      { type: 'TEXT', line: 4, column: 1, string: 'D' },
+      { type: 'END', line: 4, column: 2, string: '' }
     ],
     'multiple OUTDENT'
   )
@@ -112,17 +112,17 @@ tape('tokenizer', function (test) {
         '    B',
         '        C'
       ]
-      .join('\n')
+        .join('\n')
     ),
     [
-      {type: 'TEXT', line: 1, column: 1, string: 'A'},
-      {type: 'INDENT', line: 2, column: 1, string: '    '},
-      {type: 'TEXT', line: 2, column: 5, string: 'B'},
-      {type: 'INDENT', line: 3, column: 1, string: '        '},
-      {type: 'TEXT', line: 3, column: 9, string: 'C'},
-      {type: 'OUTDENT', line: 3, column: 10, string: ''},
-      {type: 'OUTDENT', line: 3, column: 10, string: ''},
-      {type: 'END', line: 3, column: 10, string: ''}
+      { type: 'TEXT', line: 1, column: 1, string: 'A' },
+      { type: 'INDENT', line: 2, column: 1, string: '    ' },
+      { type: 'TEXT', line: 2, column: 5, string: 'B' },
+      { type: 'INDENT', line: 3, column: 1, string: '        ' },
+      { type: 'TEXT', line: 3, column: 9, string: 'C' },
+      { type: 'OUTDENT', line: 3, column: 10, string: '' },
+      { type: 'OUTDENT', line: 3, column: 10, string: '' },
+      { type: 'END', line: 3, column: 10, string: '' }
     ],
     'emits terminal OUTDENT tokens'
   )
@@ -137,17 +137,17 @@ tape('tokenizer', function (test) {
         '',
         '        C'
       ]
-      .join('\n')
+        .join('\n')
     ),
     [
-      {type: 'TEXT', line: 1, column: 1, string: 'A'},
-      {type: 'INDENT', line: 2, column: 1, string: '    '},
-      {type: 'TEXT', line: 2, column: 5, string: 'B'},
-      {type: 'INDENT', line: 6, column: 1, string: '        '},
-      {type: 'TEXT', line: 6, column: 9, string: 'C'},
-      {type: 'OUTDENT', line: 6, column: 10, string: ''},
-      {type: 'OUTDENT', line: 6, column: 10, string: ''},
-      {type: 'END', line: 6, column: 10, string: ''}
+      { type: 'TEXT', line: 1, column: 1, string: 'A' },
+      { type: 'INDENT', line: 2, column: 1, string: '    ' },
+      { type: 'TEXT', line: 2, column: 5, string: 'B' },
+      { type: 'INDENT', line: 6, column: 1, string: '        ' },
+      { type: 'TEXT', line: 6, column: 9, string: 'C' },
+      { type: 'OUTDENT', line: 6, column: 10, string: '' },
+      { type: 'OUTDENT', line: 6, column: 10, string: '' },
+      { type: 'END', line: 6, column: 10, string: '' }
     ],
     'ignores blank lines'
   )
@@ -159,12 +159,12 @@ tape('tokenizer', function (test) {
         '# Comment',
         'B'
       ]
-      .join('\n')
+        .join('\n')
     ),
     [
-      {type: 'TEXT', line: 1, column: 1, string: 'A'},
-      {type: 'TEXT', line: 3, column: 1, string: 'B'},
-      {type: 'END', line: 3, column: 2, string: ''}
+      { type: 'TEXT', line: 1, column: 1, string: 'A' },
+      { type: 'TEXT', line: 3, column: 1, string: 'B' },
+      { type: 'END', line: 3, column: 2, string: '' }
     ],
     'ignores comment lines'
   )
@@ -178,17 +178,17 @@ tape('tokenizer', function (test) {
         '    B',
         '        C'
       ]
-      .join('\n')
+        .join('\n')
     ),
     [
-      {type: 'TEXT', line: 3, column: 1, string: 'A'},
-      {type: 'INDENT', line: 4, column: 1, string: '    '},
-      {type: 'TEXT', line: 4, column: 5, string: 'B'},
-      {type: 'INDENT', line: 5, column: 1, string: '        '},
-      {type: 'TEXT', line: 5, column: 9, string: 'C'},
-      {type: 'OUTDENT', line: 5, column: 10, string: ''},
-      {type: 'OUTDENT', line: 5, column: 10, string: ''},
-      {type: 'END', line: 5, column: 10, string: ''}
+      { type: 'TEXT', line: 3, column: 1, string: 'A' },
+      { type: 'INDENT', line: 4, column: 1, string: '    ' },
+      { type: 'TEXT', line: 4, column: 5, string: 'B' },
+      { type: 'INDENT', line: 5, column: 1, string: '        ' },
+      { type: 'TEXT', line: 5, column: 9, string: 'C' },
+      { type: 'OUTDENT', line: 5, column: 10, string: '' },
+      { type: 'OUTDENT', line: 5, column: 10, string: '' },
+      { type: 'END', line: 5, column: 10, string: '' }
     ],
     'ignores initial blank lines'
   )
@@ -201,18 +201,18 @@ tape('tokenizer', function (test) {
         '        C',
         'D'
       ]
-      .join('\r')
+        .join('\r')
     ),
     [
-      {type: 'TEXT', line: 1, column: 1, string: 'A'},
-      {type: 'INDENT', line: 2, column: 1, string: '    '},
-      {type: 'TEXT', line: 2, column: 5, string: 'B'},
-      {type: 'INDENT', line: 3, column: 1, string: '        '},
-      {type: 'TEXT', line: 3, column: 9, string: 'C'},
-      {type: 'OUTDENT', line: 4, column: 1, string: ''},
-      {type: 'OUTDENT', line: 4, column: 1, string: ''},
-      {type: 'TEXT', line: 4, column: 1, string: 'D'},
-      {type: 'END', line: 4, column: 2, string: ''}
+      { type: 'TEXT', line: 1, column: 1, string: 'A' },
+      { type: 'INDENT', line: 2, column: 1, string: '    ' },
+      { type: 'TEXT', line: 2, column: 5, string: 'B' },
+      { type: 'INDENT', line: 3, column: 1, string: '        ' },
+      { type: 'TEXT', line: 3, column: 9, string: 'C' },
+      { type: 'OUTDENT', line: 4, column: 1, string: '' },
+      { type: 'OUTDENT', line: 4, column: 1, string: '' },
+      { type: 'TEXT', line: 4, column: 1, string: 'D' },
+      { type: 'END', line: 4, column: 2, string: '' }
     ],
     'breaks lines on carriage returns'
   )
@@ -225,18 +225,18 @@ tape('tokenizer', function (test) {
         '        C',
         'D'
       ]
-      .join('\r\n')
+        .join('\r\n')
     ),
     [
-      {type: 'TEXT', line: 1, column: 1, string: 'A'},
-      {type: 'INDENT', line: 2, column: 1, string: '    '},
-      {type: 'TEXT', line: 2, column: 5, string: 'B'},
-      {type: 'INDENT', line: 3, column: 1, string: '        '},
-      {type: 'TEXT', line: 3, column: 9, string: 'C'},
-      {type: 'OUTDENT', line: 4, column: 1, string: ''},
-      {type: 'OUTDENT', line: 4, column: 1, string: ''},
-      {type: 'TEXT', line: 4, column: 1, string: 'D'},
-      {type: 'END', line: 4, column: 2, string: ''}
+      { type: 'TEXT', line: 1, column: 1, string: 'A' },
+      { type: 'INDENT', line: 2, column: 1, string: '    ' },
+      { type: 'TEXT', line: 2, column: 5, string: 'B' },
+      { type: 'INDENT', line: 3, column: 1, string: '        ' },
+      { type: 'TEXT', line: 3, column: 9, string: 'C' },
+      { type: 'OUTDENT', line: 4, column: 1, string: '' },
+      { type: 'OUTDENT', line: 4, column: 1, string: '' },
+      { type: 'TEXT', line: 4, column: 1, string: 'D' },
+      { type: 'END', line: 4, column: 2, string: '' }
     ],
     'breaks lines on carriage return and line feed'
   )

@@ -5,7 +5,7 @@ var tests = require('commonform-markup-tests')
 tape('parser', function (test) {
   test.deepEqual(
     parse('a test').form,
-    {content: ['a test']},
+    { content: ['a test'] },
     '"a test"'
   )
 
@@ -14,7 +14,7 @@ tape('parser', function (test) {
     {
       content: [
         'a test ',
-        {definition: 'Defined'}
+        { definition: 'Defined' }
       ]
     },
     'content with definition'
@@ -22,19 +22,19 @@ tape('parser', function (test) {
 
   test.deepEqual(
     parse('a test "Defined"').form,
-    {content: ['a test "Defined"']},
+    { content: ['a test "Defined"'] },
     'content with quotation marks'
   )
 
   test.deepEqual(
     parse('<Term>').form,
-    {content: [{use: 'Term'}]},
+    { content: [{ use: 'Term' }] },
     'term use'
   )
 
   test.deepEqual(
     parse('[Blank]').form,
-    {content: [{blank: ''}]},
+    { content: [{ blank: '' }] },
     'blank in form'
   )
 
@@ -55,9 +55,9 @@ tape('parser', function (test) {
         '    \\\\a',
         '        \\\\Here comes a [b]'
       ]
-      .join('\n')
+        .join('\n')
     )
-    .directions,
+      .directions,
     [
       {
         identifier: 'b',
@@ -69,13 +69,13 @@ tape('parser', function (test) {
 
   test.deepEqual(
     parse('{Heading}').form,
-    {content: [{reference: 'Heading'}]},
+    { content: [{ reference: 'Heading' }] },
     'reference'
   )
 
   test.deepEqual(
     parse('    \\\\a test').form,
-    {content: [{form: {content: ['a test']}}]},
+    { content: [{ form: { content: ['a test'] } }] },
     'single child'
   )
 
@@ -85,7 +85,7 @@ tape('parser', function (test) {
         '    \\\\a',
         '        \\\\b'
       ]
-      .join('\n')
+        .join('\n')
     ).form,
     {
       content: [
@@ -93,7 +93,7 @@ tape('parser', function (test) {
           form: {
             content: [
               'a',
-              {form: {content: ['b']}}
+              { form: { content: ['b'] } }
             ]
           }
         }
@@ -109,9 +109,9 @@ tape('parser', function (test) {
         '    \\\\b',
         '        \\\\c'
       ]
-      .join('\n')
+        .join('\n')
     )
-    .form,
+      .form,
     {
       content: [
         'a',
@@ -119,7 +119,7 @@ tape('parser', function (test) {
           form: {
             content: [
               'b',
-              {form: {content: ['c']}}
+              { form: { content: ['c'] } }
             ]
           }
         }
@@ -135,14 +135,14 @@ tape('parser', function (test) {
         'b',
         '    \\\\c'
       ]
-      .join('\n')
+        .join('\n')
     )
-    .form,
+      .form,
     {
       content: [
-        {form: {content: ['a']}},
+        { form: { content: ['a'] } },
         'b',
-        {form: {content: ['c']}}
+        { form: { content: ['c'] } }
       ]
     },
     'child, paragraph, then child'
@@ -155,13 +155,13 @@ tape('parser', function (test) {
         '    \\\\b',
         'c'
       ]
-      .join('\n')
+        .join('\n')
     )
-    .form,
+      .form,
     {
       content: [
         'a',
-        {form: {content: ['b']}},
+        { form: { content: ['b'] } },
         'c'
       ]
     },
@@ -174,10 +174,10 @@ tape('parser', function (test) {
         'a',
         'b'
       ]
-      .join('\n')
+        .join('\n')
     )
-    .form,
-    {content: ['ab']},
+      .form,
+    { content: ['ab'] },
     'consecutive lines of paragraph'
   )
 
@@ -188,14 +188,14 @@ tape('parser', function (test) {
         '    \\\\b',
         '    \\\\c'
       ]
-      .join('\n')
+        .join('\n')
     )
-    .form,
+      .form,
     {
       content: [
         'a',
-        {form: {content: ['b']}},
-        {form: {content: ['c']}}
+        { form: { content: ['b'] } },
+        { form: { content: ['c'] } }
       ]
     },
     'paragraph, then consecutive children'
@@ -238,7 +238,7 @@ tape('parser', function (test) {
       content: [
         {
           heading: 'h',
-          form: {content: ['a']}
+          form: { content: ['a'] }
         }
       ]
     },
@@ -251,7 +251,7 @@ tape('parser', function (test) {
       content: [
         {
           heading: 'h',
-          form: {content: ['a']}
+          form: { content: ['a'] }
         }
       ]
     },
@@ -264,7 +264,7 @@ tape('parser', function (test) {
       content: [
         {
           heading: 'a b',
-          form: {content: ['a']}
+          form: { content: ['a'] }
         }
       ]
     },
@@ -273,13 +273,13 @@ tape('parser', function (test) {
 
   test.deepEqual(
     parse(['    \\  \\a'].join('\n')).form,
-    {content: [{form: {content: ['a']}}]},
+    { content: [{ form: { content: ['a'] } }] },
     'collapse double space in heading'
   )
 
   test.deepEqual(
     parse(['a    b'].join('\n')).form,
-    {content: ['a b']},
+    { content: ['a b'] },
     'collapse double space in text'
   )
 
@@ -291,7 +291,7 @@ tape('parser', function (test) {
         'C',
         '    \\\\D'
       ]
-      .join('\n')
+        .join('\n')
     ).form,
     {
       content: [
@@ -299,12 +299,12 @@ tape('parser', function (test) {
           form: {
             content: [
               'A',
-              {form: {content: ['B']}}
+              { form: { content: ['B'] } }
             ]
           }
         },
         'C',
-        {form: {content: ['D']}}
+        { form: { content: ['D'] } }
       ]
     },
     'deep dedent to paragraph'
@@ -321,9 +321,9 @@ tape('parser', function (test) {
         '        Y',
         '        \\\\Z'
       ]
-      .join('\n')
+        .join('\n')
     )
-    .form,
+      .form,
     {
       content: [
         {
@@ -332,20 +332,20 @@ tape('parser', function (test) {
             content: [
               {
                 heading: 'B',
-                form: {content: ['U']}
+                form: { content: ['U'] }
               },
               {
                 heading: 'C',
                 form: {
                   content: [
                     'V',
-                    {form: {content: ['W']}},
-                    {form: {content: ['X']}},
+                    { form: { content: ['W'] } },
+                    { form: { content: ['X'] } },
                     'Y'
                   ]
                 }
               },
-              {form: {content: ['Z']}}
+              { form: { content: ['Z'] } }
             ]
           }
         }

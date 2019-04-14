@@ -29,7 +29,7 @@ function recurse (syntaxTree, directions, path) {
       if (elementIsChild) {
         var childPath = path.concat('content', index, 'form')
         var result = recurse(element.form, directions, childPath)
-        var newChild = {form: result.form}
+        var newChild = { form: result.form }
         if (element.hasOwnProperty('heading')) {
           newChild.heading = element.heading
         }
@@ -39,7 +39,7 @@ function recurse (syntaxTree, directions, path) {
       }
     }
   })
-  var newForm = {content: newContent}
+  var newForm = { content: newContent }
   if (syntaxTree.hasOwnProperty('conspicuous')) {
     newForm.conspicuous = syntaxTree.conspicuous
   }
@@ -50,5 +50,5 @@ function recurse (syntaxTree, directions, path) {
 }
 
 function createBlank () {
-  return {blank: ''}
+  return { blank: '' }
 }

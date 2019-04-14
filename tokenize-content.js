@@ -94,27 +94,27 @@ function tokenizeContent (string, line, offset) {
   }
   // Combine consecutive character tokens into text tokens.
   return arrayOfTokens
-  .reduce(function (returned, token, index, tokens) {
-    var precedingToken = (index > 0) ? tokens[index - 1] : false
-    var consecutiveText = (
-      precedingToken &&
+    .reduce(function (returned, token, index, tokens) {
+      var precedingToken = (index > 0) ? tokens[index - 1] : false
+      var consecutiveText = (
+        precedingToken &&
       (precedingToken.type === CHARACTER) &&
       (token.type === CHARACTER)
-    )
-    if (consecutiveText) {
-      returned[(returned.length - 1)].string += token.string
-      return returned
-    } else {
-      return returned.concat({
-        type: (
-          token.type === CHARACTER
-          ? 'TEXT'
-          : token.type
-        ),
-        column: token.column,
-        line: token.line,
-        string: token.string
-      })
-    }
-  }, [])
+      )
+      if (consecutiveText) {
+        returned[(returned.length - 1)].string += token.string
+        return returned
+      } else {
+        return returned.concat({
+          type: (
+            token.type === CHARACTER
+              ? 'TEXT'
+              : token.type
+          ),
+          column: token.column,
+          line: token.line,
+          string: token.string
+        })
+      }
+    }, [])
 }
