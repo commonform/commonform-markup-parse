@@ -2,6 +2,7 @@
   "name": "commonform-markup-parse",
   "version": "1.0.0",
   "author": "Kyle E. Mitchell <kyle@kemitchell.com> (https://kemitchell.com/)",
+  "bin": "bin.js",
   "dependencies": {
     "commonform-fix-strings": "^1.0.0",
     "string-repeat": "^1.1.1"
