@@ -1,5 +1,5 @@
 // Given the AST produced by the parser, replace all blanks with
-// `{blank:''}` and create directions that link blank identifiers to
+// `{blank:''}` and create directions that link blank labels to
 // paths within the form.
 module.exports = function (syntaxTree) {
   return recurse(syntaxTree, [], [])
@@ -15,11 +15,11 @@ function recurse (syntaxTree, directions, path) {
       element.hasOwnProperty('blank')
     )
     if (elementIsBlank) {
-      var identifier = element.blank
+      var label = element.blank
       newContent.push(createBlank())
       directions.push({
-        identifier: identifier,
-        path: path.concat('content', index)
+        label: label,
+        blank: path.concat('content', index)
       })
     } else {
       var elementIsChild = (

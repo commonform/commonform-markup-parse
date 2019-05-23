@@ -42,8 +42,8 @@ tape('parser', function (test) {
     parse('[Blank]').directions,
     [
       {
-        identifier: 'Blank',
-        path: ['content', 0]
+        label: 'Blank',
+        blank: ['content', 0]
       }
     ],
     'blank produces direction'
@@ -60,8 +60,8 @@ tape('parser', function (test) {
       .directions,
     [
       {
-        identifier: 'b',
-        path: ['content', 0, 'form', 'content', 1, 'form', 'content', 1]
+        label: 'b',
+        blank: ['content', 0, 'form', 'content', 1, 'form', 'content', 1]
       }
     ],
     'deeply nested blank produces direction'
