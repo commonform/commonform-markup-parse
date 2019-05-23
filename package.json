@@ -14,7 +14,7 @@
     "tape": "^4.2.1"
   },
   "license": "BlueOak-1.0.0",
-  "repository": "commonform/commonform-new-markup",
+  "repository": "commonform/commonform-markup-parse",
   "scripts": {
     "prepublish": "jison -p lalr -m commonjs -o parser.js parser.jison",
     "pretest": "npm run prepublish",
