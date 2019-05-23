@@ -13,7 +13,7 @@
     "tap-difflet": "^0.7.0",
     "tape": "^4.2.1"
   },
-  "license": "Apache-2.0",
+  "license": "BlueOak-1.0.0",
   "repository": "commonform/commonform-new-markup",
   "scripts": {
     "prepublish": "jison -p lalr -m commonjs -o parser.js parser.jison",
